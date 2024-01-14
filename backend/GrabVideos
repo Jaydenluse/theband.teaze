@@ -1,0 +1,17 @@
+const express = require('express');
+const axios = require('axios');
+const router = express.Router();
+
+const YOUTUBE_API_KEY = 'AIzaSyDRxQHOLE54PsM_47dymXWH_dcCBWVJSV8'; 
+const CHANNEL_ID = 'UCveg4CC1ZBqGbAM452qauow'; // Replace with the desired YouTube Channel ID
+
+router.get('api/getVideos', async (req, res) => {
+  try {
+    const response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&maxResults=10&order=date&type=video&key=${YOUTUBE_API_KEY}`);
+    res.json(response.data.items);
+  } catch (error) {
+    res.status(500).send('Error fetching YouTube videos');
+  }
+});
+
+module.exports = router;

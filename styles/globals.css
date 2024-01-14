@@ -1,0 +1,72 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.viewport-fill-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+.bg-video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100vw; /* full width of the viewport */
+    height: 100vh; /* full height of the viewport */
+    top: 0;
+    left: 0;
+  }
+  
+  .bg-video-container::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay if needed */
+  }
+  
+  .bg-video-container iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 120%;
+    min-height: 120%;
+    width: auto;
+    height: auto;
+    z-index: 1;
+  }
+  
+.video-list-container {
+    display: flex;
+    flex-direction: column; /* Align children vertically */
+    align-items: center; /* Center children horizontally */
+    gap: 20px; /* Space between items */
+}
+  
+  .video-container {
+    text-align: center; /* Center the text */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Center the text */
+    margin-bottom: 20px;
+  }
+
+  .image-crop-container {
+    width: 300px; /* Your desired width */
+    height: 280px; /* Your desired height */
+    background-size: 600px 380px; /* Size of the image */
+    background-position: center; /* Adjust this to control where to crop */
+    background-repeat: no-repeat;
+    overflow: hidden; /* Hide the parts of the image that overflow the container */
+  }
