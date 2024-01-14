@@ -1,17 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function BackgroundVideo({ videoId, start, end }) {
-  useEffect(() => {
-    // This code loads the IFrame Player API code asynchronously.
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  // Use a ref to store the player instance
+  const playerRef = useRef(null);
 
-    // This function creates an <iframe> (and YouTube player) after the API code downloads.
-    let player;
-    window.onYouTubeIframeAPIReady = () => {
-      player = new window.YT.Player('player', {
+  useEffect(() => {
+    // Function to create player
+    const createPlayer = () => {
+      if (playerRef.current) {
+        // If player already exists, destroy it before creating a new one
+        playerRef.current.destroy();
+      }
+
+      playerRef.current = new window.YT.Player('player', {
         height: '100%',
         width: '100%',
         videoId: videoId,
@@ -20,7 +21,7 @@ export default function BackgroundVideo({ videoId, start, end }) {
           controls: 0,
           modestbranding: 1,
           loop: 1,
-          playlist: videoId, // Required for looping, as per YouTube's API
+          playlist: videoId,
           fs: 0,
           cc_load_policy: 0,
           iv_load_policy: 3,
@@ -36,21 +37,34 @@ export default function BackgroundVideo({ videoId, start, end }) {
           },
           onStateChange: (event) => {
             if (event.data === window.YT.PlayerState.ENDED) {
-              player.playVideo(); // Play again
+              event.target.playVideo(); // Play again
             }
           }
         }
       });
     };
 
+    // Check if the YT script is already loaded
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      // Load the IFrame Player API code asynchronously if not loaded
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // Set up the player once the script is loaded
+      window.onYouTubeIframeAPIReady = createPlayer;
+    }
+
+    // Cleanup function to destroy the player when the component unmounts
     return () => {
-      if (player) {
-        player.destroy();
+      if (playerRef.current) {
+        playerRef.current.destroy();
       }
     };
   }, [videoId, start, end]);
 
-  return (<div id="player" className="absolute top-0 left-0 w-full h-full">
-    {/* The YouTube iframe will be inserted here by the YouTube API script */}
-  </div>);
+  return <div id="player" className="absolute top-0 left-0 w-full h-full"></div>;
 }

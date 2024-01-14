@@ -2,21 +2,24 @@
 import Header from '../components/Header';
 import BackgroundVideo from '../components/BackgroundVideo';
 
+
 export default function Home() {
+  const defaultVideoId = '0XcYmx57aD0';
+
   return (
-    <div className="bg-video-container min-h-screen">
-      <BackgroundVideo videoId="0XcYmx57aD0" start={120} end={240} />
-
-      <Header />
-
-      <div className="relative z-20 flex flex-col items-center justify-center p-4 min-h-screen">
-        {/* Page-specific content */}
+    <>
+      <Header/>
+      {/* The z-index of the text container is higher than that of the video container */}
+      <div className="absolute flex flex-col items-start justify-center p-4 min-h-screen z-20 pl-10">
         <header className="text-center">
-          <h1 className="text-white text-6xl font-extrabold">
-            teaze
+          <h1 className="text-white text-8xl font-extrabold">
+            teaze.
           </h1>
         </header>
       </div>
-    </div>
+      <div className="bg-video-container min-h-screen z-10">
+        <BackgroundVideo videoId={defaultVideoId} start={140} end={280} />
+        </div>
+    </>
   );
 }

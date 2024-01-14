@@ -1,26 +1,19 @@
 // components/Header.js
 import Link from 'next/link';
+import BackgroundVideo from '../components/BackgroundVideo';
 
-const Header = () => {
+const Header = ({color}) => {
   return (
-    <nav className="absolute top-0 left-0 right-0 flex justify-around p-10 text-white text-3xl font-bold">
-      <Link href="/" passHref>
-        <a className="hover:text-pink-200 transition duration-300">HOME</a>
-      </Link>
-      <Link href="/music" passHref>
-        <a className="hover:text-pink-200 transition duration-300">MUSIC</a>
-      </Link>
-      {/* Uncomment and add additional links as needed */}
-      {/* <Link href="/shop" passHref>
-        <a className="hover:text-pink-200 transition duration-300">SHOP</a>
-      </Link>
-      <Link href="/video" passHref>
-        <a className="hover:text-pink-200 transition duration-300">VIDEO</a>
-      </Link>
-      <Link href="/shows" passHref>
-        <a className="hover:text-pink-200 transition duration-300">TOUR</a>
-      </Link> */}
-    </nav>
+    <>
+        <nav className="z-50 fixed flex p-10 text-white text-3xl font-bold">
+            <Link href="/" passHref className="hover:text-pink-200 transition duration-300 pr-5">
+            HOME
+            </Link>
+            <Link href="/music" passHref className="z-40 hover:text-pink-200 transition duration-300">
+            MUSIC
+            </Link>
+        </nav>
+    </>
   );
 };
 

@@ -11,7 +11,7 @@ function YouTubeVideoList() {
   }, []);
 
   return (
-    <div className="video-list-container">
+    <div className="video-list-container pt-10">
       {videos.map(video => (
         <div key={video.id.videoId} className="video-container">
           <a href={`https://www.youtube.com/watch?v=${video.id.videoId}`} target="_blank" rel="noopener noreferrer">
