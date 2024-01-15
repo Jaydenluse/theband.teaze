@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function YouTubeVideoList() {
+export default function YouTubeVideoList() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
@@ -28,5 +28,3 @@ function YouTubeVideoList() {
     </div>
   );
 }
-
-export default YouTubeVideoList;
