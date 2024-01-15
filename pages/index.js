@@ -1,6 +1,6 @@
 // pages/index.js
-import Header from '../components/Header';
-import BackgroundVideo from '../components/BackgroundVideo';
+import Header from '../components/Header.js';
+import BackgroundVideo from '../components/BackgroundVideo.js';
 
 
 export default function Home() {

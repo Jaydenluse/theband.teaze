@@ -1,10 +1,8 @@
 // components/Header.js
 import Link from 'next/link';
-import BackgroundVideo from '../components/BackgroundVideo';
 
-const Header = ({color}) => {
+const Header = () => {
   return (
-    <>
         <nav className="z-50 fixed flex p-10 text-white text-3xl font-bold">
             <Link href="/" passHref className="hover:text-pink-200 transition duration-300 pr-5">
             HOME
@@ -13,7 +11,6 @@ const Header = ({color}) => {
             MUSIC
             </Link>
         </nav>
-    </>
   );
 };
 

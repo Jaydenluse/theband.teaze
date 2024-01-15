@@ -1,6 +1,6 @@
-import Header from '../components/Header';
-import YouTubeVideoList from '../components/YouTubeVideoList';
-import BackgroundVideo from '../components/BackgroundVideo';
+import Header from '../components/Header.js';
+import YouTubeVideoList from '../components/YouTubeVideoList.js';
+import BackgroundVideo from '../components/BackgroundVideo.js';
 
 export default function Music() {
   const musicVideoId = 'FFlWJHOUhhs';
