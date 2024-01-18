@@ -67,4 +67,29 @@
     background-repeat: no-repeat;
     overflow: hidden; /* Hide the parts of the image that overflow the container */
     border: 3px solid #ddd;
+    transition: border-color 300ms ease, border-width 300ms ease; /* Added transition for border-width */
   }
+
+  .image-crop-container:hover {
+    border-color: pink; 
+    border-width: 6px; 
+  }
+
+  .video-title {
+    transition: color 300ms ease; 
+  }
+  
+  .video-container:hover .image-crop-container {
+    border-color: pink; 
+    border-width: 6px; 
+  }
+  
+  .video-container:hover .video-title {
+    color: pink; 
+  }
+
+.logo{
+  width: 150px; /* Adjust as needed to match your design */
+  height: 50px; /* Adjust as needed to match your design */
+  object-fit: contain; /* This ensures the image scales within the given dimensions without distortion */
+}
