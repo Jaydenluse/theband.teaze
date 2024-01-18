@@ -1,8 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/music": "pages/music.js",
-  "/api/[...youtube]": "pages/api/[...youtube].js"
-}
+{"/_app":"pages/_app.js","/api/[...youtube]":"pages/api/[...youtube].js","/_error":"pages/_error.js","/":"pages/index.html","/music":"pages/music.html","/_document":"pages/_document.js","/404":"pages/404.html"}
