@@ -7,8 +7,11 @@ const Header = () => {
             <Link href="/" passHref className="hover:text-pink-200 transition duration-300 pr-5">
             HOME
             </Link>
-            <Link href="/music" passHref className="z-40 hover:text-pink-200 transition duration-300">
+            <Link href="/music" passHref className="z-40 hover:text-pink-200 transition duration-300 pr-5">
             MUSIC
+            </Link>
+            <Link href="/snake" passHref className="z-40 hover:text-pink-200 transition duration-300 pr-5">
+            SNAKE
             </Link>
         </nav>
   );
