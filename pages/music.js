@@ -1,4 +1,5 @@
 import Header from '../components/Header.js';
+import Footer from '../components/Footer.js'
 import YoutubeVideoList from '../components/YoutubeVideoList.js';
 import BackgroundVideo from '../components/BackgroundVideo.js';
 
@@ -8,6 +9,7 @@ export default function Music() {
   return (
     <>
       <Header videoId={musicVideoId} />
+      <Footer videoLink='https://www.youtube.com/watch?v=FFlWJHOUhhs'/>
       <div className="relative min-h-screen">
         <div className="bg-video-container z-10 ">
           <BackgroundVideo videoId={musicVideoId} start={140} end={280} />

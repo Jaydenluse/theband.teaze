@@ -42,30 +42,17 @@
     width: auto;
     height: auto;
   }
-  
-.video-list-container {
-    display: flex;
-    gap: 100px; /* Space between items */
-    padding-left: 20px; 
-    align-items: start; 
 
-}
-  
-  .video-container {
-    text-align: center; /* Center the text */
+  .album-list-container {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    text-align: center; /* Center the text */
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the items horizontally */
   }
 
   .image-crop-container {
-    width: 300px; /* Your desired width */
-    height: 280px; /* Your desired height */
-    background-size: 600px 380px; /* Size of the image */
-    background-position: center; /* Adjust this to control where to crop */
-    background-repeat: no-repeat;
-    overflow: hidden; /* Hide the parts of the image that overflow the container */
+    width: 280px; 
+    height: 280px; 
+    background-size: contain; 
     border: 3px solid #ddd;
     transition: border-color 300ms ease, border-width 300ms ease; /* Added transition for border-width */
   }
@@ -75,19 +62,24 @@
     border-width: 6px; 
   }
 
-  .video-title {
-    transition: color 300ms ease; 
+  .album-container {
+    margin: 10px;
+    cursor: pointer; /* Make the cursor a pointer to indicate it's clickable */
+    transition: transform 300ms ease; /* Smooth transition for hover effect */
   }
   
-  .video-container:hover .image-crop-container {
+  .album-container:hover {
+    transform: scale(1.03); /* Slightly scale up on hover for visual feedback */
+  }
+  
+  .album-container:hover .image-crop-container {
     border-color: pink; 
     border-width: 6px; 
   }
   
-  .video-container:hover .video-title {
+  .album-container:hover .album-title {
     color: pink; 
   }
-
 .logo{
   width: 150px; /* Adjust as needed to match your design */
   height: 50px; /* Adjust as needed to match your design */
