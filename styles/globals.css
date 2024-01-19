@@ -80,8 +80,58 @@
   .album-container:hover .album-title {
     color: pink; 
   }
+
 .logo{
   width: 150px; /* Adjust as needed to match your design */
   height: 50px; /* Adjust as needed to match your design */
   object-fit: contain; /* This ensures the image scales within the given dimensions without distortion */
+}
+
+/* Styles for mobile screens */
+@media (max-width: 600px) {
+  .album-container {
+    margin: 10px; 
+    display: grid;
+    place-items: center;
+  }
+
+  .image-crop-container {
+    width: 180px; 
+    height: 180px; 
+    background-size: contain; 
+    border: 3px solid #ddd;
+    transition: border-color 300ms ease, border-width 300ms ease;
+    display: grid;
+    place-items: center;
+  }
+}
+
+@media (max-width: 860px) {
+  .phone-modal{
+    width: 300px;
+    height: 500px;
+  }
+
+  .phone-modal-text{
+    font-size: 15px;
+  }
+
+  .phone-play{
+    width: 50px;
+    height: 30px;
+    font-size: 10px;
+  }
+
+  .logo{
+    width: 100px; /* Adjust as needed to match your design */
+    height: 25px; /* Adjust as needed to match your design */
+    object-fit: contain; /* This ensures the image scales within the given dimensions without distortion */
+  }
+
+  .album-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    width: 100%;
+  }
 }
