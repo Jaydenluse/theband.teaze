@@ -102,6 +102,42 @@ const Snake = () => {
         return false;
     };
 
+    const handleTouch = (e) => {
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        
+        const canvasRect = canvasRef.current.getBoundingClientRect();
+        
+        const relX = touchX - canvasRect.left;
+        const relY = touchY - canvasRect.top;
+    
+        const snakeHead = snake[0];
+        if (Math.abs(relX - snakeHead.x) > Math.abs(relY - snakeHead.y)) {
+            // Horizontal movement
+            if (relX > snakeHead.x) {
+                setDirection({ x: 20, y: 0 }); // Move right
+            } else {
+                setDirection({ x: -20, y: 0 }); // Move left
+            }
+        } else {
+            // Vertical movement
+            if (relY > snakeHead.y) {
+                setDirection({ x: 0, y: 20 }); // Move down
+            } else {
+                setDirection({ x: 0, y: -20 }); // Move up
+            }
+        }
+    };
+    
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        canvas.addEventListener('touchstart', handleTouch);
+    
+        return () => {
+            canvas.removeEventListener('touchstart', handleTouch);
+        };
+    }, [snake, direction]);
+
     const handleKeyDown = (e) => {
         if (isModalOpen) {
             if (e.keyCode === 32) {
