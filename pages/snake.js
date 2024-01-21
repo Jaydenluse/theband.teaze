@@ -24,6 +24,7 @@ const Snake = () => {
     const [wallBreakerActive, setWallBreakerActive] = useState(false);
     const [wallBreakerStartTime, setWallBreakerStartTime] = useState(null);
     const [wallBreakerTimeLeft, setWallBreakerTimeLeft] = useState(0);
+    const [lives, setLives] = useState(1);  // Starting with 1 life
 
 
     const fillScreen = () => {
@@ -34,6 +35,15 @@ const Snake = () => {
         context.fillText(`Score: ${score}`, 20, 30);
         context.fillText(`Speed: ${score}`, 20, 55);
 
+        const multiplierText = `${pointMultiplier}x`;
+        const textWidth = context.measureText(multiplierText).width;
+        const multiplierPosX = 570 - textWidth; // Adjust the position based on the text width
+        context.fillText(multiplierText, multiplierPosX, 30);
+
+        for (let i = 0; i < lives; i++) {
+            context.fillText("♥", 20 + (i * 20), 74); // Adjust position as needed
+        }
+
         // Draw the snake
         context.fillStyle = 'lime';
         snake.forEach(part => context.fillRect(part.x, part.y, snakePartSize, snakePartSize));
@@ -43,6 +53,16 @@ const Snake = () => {
         context.fillRect(food.x, food.y, snakePartSize, snakePartSize);
         return;
     }
+
+    const addLife = () => {
+        setLives(lives => {
+            const newLives = lives + 1;
+            console.log("Adding a life. Current lives: ", lives, "New lives count: ", newLives);
+            return newLives;
+        });
+        setIsModalOpen(false);
+        setGameStarted(true);
+    };
 
     const activateWallBreaker = () => {
         setWallBreakerActive(true);
@@ -76,14 +96,10 @@ const Snake = () => {
         setGameStarted(true);
     };
     
-    const resetSnakeSize = () => {
-        const resizedSnake = initialSnake.map((part, index) => {
-            if (index === 0) {
-                return { x: snake[0].x, y: snake[0].y };
-            }
-            return { x: snake[0].x - index * snakePartSize, y: snake[0].y };
-        });
-        setSnake(resizedSnake);
+    const halveSnakeSize = () => {
+        const halfLength = Math.ceil(snake.length / 2);
+        const newSnake = snake.slice(0, halfLength);
+        setSnake(newSnake);
         setIsModalOpen(false);
         setGameStarted(true);
     };
@@ -102,41 +118,14 @@ const Snake = () => {
         return false;
     };
 
-    const handleTouch = (e) => {
-        const touchX = e.touches[0].clientX;
-        const touchY = e.touches[0].clientY;
-        
-        const canvasRect = canvasRef.current.getBoundingClientRect();
-        
-        const relX = touchX - canvasRect.left;
-        const relY = touchY - canvasRect.top;
-    
-        const snakeHead = snake[0];
-        if (Math.abs(relX - snakeHead.x) > Math.abs(relY - snakeHead.y)) {
-            // Horizontal movement
-            if (relX > snakeHead.x) {
-                setDirection({ x: 20, y: 0 }); // Move right
-            } else {
-                setDirection({ x: -20, y: 0 }); // Move left
-            }
+    const handleLifeLoss = () => {
+        if (lives > 1) {
+            setLives(lives - 1);
+            return false; // Continue the game
         } else {
-            // Vertical movement
-            if (relY > snakeHead.y) {
-                setDirection({ x: 0, y: 20 }); // Move down
-            } else {
-                setDirection({ x: 0, y: -20 }); // Move up
-            }
+            return true; // Game over
         }
     };
-    
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        canvas.addEventListener('touchstart', handleTouch);
-    
-        return () => {
-            canvas.removeEventListener('touchstart', handleTouch);
-        };
-    }, [snake, direction]);
 
     const handleKeyDown = (e) => {
         if (isModalOpen) {
@@ -231,16 +220,27 @@ const Snake = () => {
         }
     
         // Check collision only if Wall Breaker is not active
-        if (!wallBreakerActive && checkCollision(head, newSnake)) {
-            // Reset game on collision
-            setSnake(initialSnake);
-            setDirection({ x: 0, y: 0 });
-            setScore(0);
-            setSpeed(100);
-            setFoodEatenCount(0);
-            setGameStarted(false); 
-            setPointMultiplier(1);
-            return; // Return here to stop executing further code
+        const hasCollision = checkCollision(head, newSnake);
+        if (!wallBreakerActive && hasCollision) {
+            if (lives > 1) {
+                setLives(lives => lives - 1);
+                setPointMultiplier(1)
+                setSnake(initialSnake);
+                setDirection({ x: 0, y: 0 }); // Stop the snake
+                setGameStarted(false); // Require a key press to start again
+                return false; // Continue the game with reduced life
+            } else {
+                // Game over logic
+                setSnake(initialSnake);
+                setDirection({ x: 0, y: 0 }); // Reset direction
+                setScore(0);
+                setSpeed(100);
+                setFoodEatenCount(0);
+                setGameStarted(false); 
+                setPointMultiplier(1);
+                setLives(1); // Reset lives
+                return true; // End the game
+            }
         }
     
         newSnake.unshift(head);
@@ -260,6 +260,10 @@ const Snake = () => {
     }, [snake, direction, speed, food, foodEatenCount, gameStarted]);
 
     useEffect(() => {
+        fillScreen(); // Call fillScreen to update the canvas including lives
+    }, [lives]);
+
+    useEffect(() => {
         if (!gameStarted) {
             fillScreen()
         }
@@ -271,6 +275,15 @@ const Snake = () => {
         context.fillStyle = "lime";
         context.fillText(`Score: ${score}`, 20, 30);
         context.fillText(`Speed: ${speed}`, 20, 52);
+        
+        const multiplierText = `${pointMultiplier}x`;
+        const textWidth = context.measureText(multiplierText).width;
+        const multiplierPosX = 580 - textWidth; // Adjust the position based on the text width
+        context.fillText(multiplierText, multiplierPosX, 30);
+
+        for (let i = 0; i < lives; i++) {
+            context.fillText("♥", 20 + (i * 20), 74); // Adjust position as needed
+        }
         if (wallBreakerActive) {
             context.font = "14px Inter, sans-serif";
             context.fillStyle = "lime";
@@ -285,7 +298,7 @@ const Snake = () => {
         context.fillStyle = (foodEatenCount % 10 === 0 && foodEatenCount !== 0) ? 'gold' : 'red';
         context.fillRect(food.x, food.y, snakePartSize, snakePartSize);
 
-    }, [snake, food, score, foodEatenCount, gameStarted]);
+    }, [snake, food, score, foodEatenCount, gameStarted, lives]);
 
     return (
         <>
@@ -297,8 +310,8 @@ const Snake = () => {
                     {foodEatenCount != 11 ?
                         (
                         <>
-                            <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={resetSnakeSize}>
-                                Reset Snake Size
+                            <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={halveSnakeSize}>
+                                Half Snake Size
                             </button>
                             <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={increasePointMultiplier}>
                                 Increase Score Multiplier (Current: {pointMultiplier}x)
@@ -310,14 +323,14 @@ const Snake = () => {
                         ) : 
                         (
                         <>
-                            <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={resetSnakeSize}>
+                            <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={addLife}>
                                 +1 Life
                             </button>
                             <button className="mb-4 text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={resetSpeed}>
                                 Reset Speed to 100
                             </button>
                             <button className="text-lime-400 text-center w-full py-2 hover:text-lime-200 hover:scale-105 transition duration-300" onClick={activateWallBreaker}>
-                                Go Thru Walls (30 seconds)
+                                Go Thru Walls + Snake (30 seconds)
                             </button>
                         </>
                         )
@@ -342,7 +355,7 @@ const Snake = () => {
                         <li className="mb-4">As you eat tokens your score will increase by a multiplier that starts at 1x.</li>
                         <li className="mb-2">Every 10th token eaten the speed will increase gradually, you will also have a choice of various boosts.</li>
                         <ul className="pl-8 list-disc">
-                            <li className="mb-2 text-xs">Reset Snake Size</li>
+                            <li className="mb-2 text-xs">Half Snake Size</li>
                             <li className="mb-2 text-xs">Points Multiplier (compounds)</li>
                             <li className="mb-4 text-xs">Keep Same Speed</li>
                         </ul>
@@ -350,8 +363,9 @@ const Snake = () => {
                         <ul className="pl-8 list-disc">
                             <li className="mb-2 text-xs">+1 Life</li>
                             <li className="mb-2 text-xs">Reset Speed to 100</li>
-                            <li className="mb-2 text-xs">Go Thru Walls (30 seconds)</li>
+                            <li className="mb-4 text-xs">Go Thru Walls + Snake (30 seconds)</li>
                         </ul>
+                        <li className="mb-2">If you lose a life your score multiplier will reset back to 1x.</li>
                         {/* Add more rules as needed */}
                     </ul>
                 </div>
