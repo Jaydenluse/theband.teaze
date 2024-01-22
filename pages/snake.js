@@ -463,7 +463,7 @@ const Snake = () => {
                     </div>
                 </div>
             {/* Canvas and Rules Container */}
-            <div className="flex justify-center flex-1 pl-80">
+            <div className="flex justify-center flex-1 pl-80 pt-20">
                 {/* Canvas Container */}
                 <div style={{ maxWidth: '600px' }}>
                     <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="snake-canvas" />
