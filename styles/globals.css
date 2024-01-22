@@ -102,6 +102,24 @@ body {
   box-shadow: 0 0 20px 2px lime; /* Adjust the color and size as needed */
 }
 
+.green{
+  color: #00FF00;
+}
+
+.username-input-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.username-input {
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 10px;
+  width: 200px; /* Adjust the width as needed */
+  border: 2px solid lime; /* Style to match SnakeModal */
+  border-radius: 5px;
+}
+
 /* Styles for mobile screens */
 @media (max-width: 600px) {
   .album-container {
