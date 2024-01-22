@@ -28,6 +28,7 @@ const Snake = () => {
     const [leaderboard, setLeaderboard] = useState([]);
     const [usernameModalOpen, setUsernameModalOpen] = useState(false);
     const [username, setUsername] = useState("");
+    const [isPaused, setIsPaused] = useState(false);
 
 
     const saveScore = async (username, score) => {
@@ -98,7 +99,6 @@ const Snake = () => {
     const handleUsernameSubmit = () => {
         if (username) {
             saveScore(username, score).then(() => {
-                alert("Score saved successfully!");
                 setUsernameModalOpen(false); // Close the modal
                 resetGame(); // Reset the game
             });
@@ -217,53 +217,31 @@ const Snake = () => {
     };
 
     const handleKeyDown = (e) => {
-        if (isModalOpen) {
-            if (e.keyCode === 32) {
-                setIsModalOpen(false);
-                setGameStarted(true);
-            }
-            return;
+        if (isModalOpen || usernameModalOpen || isPaused) return;
+    
+        let newDirection = { ...direction };
+        switch (e.keyCode) {
+            case 37: // left
+                if (direction.x === 0) newDirection = { x: -20, y: 0 };
+                break;
+            case 38: // up
+                if (direction.y === 0) newDirection = { x: 0, y: -20 };
+                break;
+            case 39: // right
+                if (direction.x === 0) newDirection = { x: 20, y: 0 };
+                break;
+            case 40: // down
+                if (direction.y === 0) newDirection = { x: 0, y: 20 };
+                break;
+            case 32: // space bar for pause/unpause
+                setIsPaused(prev => !prev);
+                return;
+            default:
+                return;
         }
-
-        if (usernameModalOpen) return;
-
-        if (!gameStarted) {
-            switch (e.keyCode) {
-                case 37: // left
-                    setDirection({ x: -20, y: 0 });
-                    break;
-                case 38: // up
-                    setDirection({ x: 0, y: -20 });
-                    break;
-                case 39: // right
-                    setDirection({ x: 20, y: 0 });
-                    break;
-                case 40: // down
-                    setDirection({ x: 0, y: 20 });
-                    break;
-                default:
-                    return; // If it's not an arrow key, don't do anything.
-            }
-            setGameStarted(true);
-        } else {
-                // Normal direction change logic
-                switch (e.keyCode) {
-                    case 37: // left
-                        if (direction.y !== 0) setDirection({ x: -20, y: 0 });
-                        break;
-                    case 38: // up
-                        if (direction.x !== 0) setDirection({ x: 0, y: -20 });
-                        break;
-                    case 39: // right
-                        if (direction.y !== 0) setDirection({ x: 20, y: 0 });
-                        break;
-                    case 40: // down
-                        if (direction.x !== 0) setDirection({ x: 0, y: 20 });
-                        break;
-                    default:
-                        break;
-                }
-            }
+    
+        if (!gameStarted) setGameStarted(true);
+        setDirection(newDirection);
     };
 
     useEffect(() => {
@@ -294,7 +272,7 @@ const Snake = () => {
     };
 
     const runGame = () => {
-        if (!gameStarted || usernameModalOpen) return;
+        if (!gameStarted || usernameModalOpen || isPaused) return;
     
         let newSnake = [...snake];
         let head = { x: newSnake[0].x + direction.x, y: newSnake[0].y + direction.y };
@@ -339,9 +317,12 @@ const Snake = () => {
     };
 
     useEffect(() => {
+        if (!gameStarted || usernameModalOpen || isPaused) return;
+    
         const gameInterval = setInterval(runGame, speed);
+    
         return () => clearInterval(gameInterval);
-    }, [snake, direction, speed, food, foodEatenCount, gameStarted]);
+    }, [gameStarted, isPaused, usernameModalOpen, speed, runGame]);
 
     useEffect(() => {
         fillScreen(); // Call fillScreen to update the canvas including lives
@@ -388,6 +369,11 @@ const Snake = () => {
         <>
             <Header/>
             <Footer/>
+            {isPaused && (
+            <div className="pause-modal">
+                <p className="pause-modal-content">Paused</p>
+            </div>
+            )}
             <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>
             <div className="username-input-container">
                 <input
@@ -488,7 +474,7 @@ const Snake = () => {
                     <h3 className="green text-xl font-bold mb-4">Game Rules</h3>
                     <ul className="green text-sm list-disc pl-5">
                         <li className="mb-2">Use the arrow keys to move the snake.</li>
-
+                        <li className="mb-2">Press the spacebar to pause/unpause the game.</li>
                         <li className="mb-4">As you eat tokens your score will increase by a multiplier that starts at 1x.</li>
                         <li className="mb-2">Every 10th token eaten the speed will increase gradually, you will also have a choice of various boosts.</li>
                         <ul className="pl-8 list-disc">
