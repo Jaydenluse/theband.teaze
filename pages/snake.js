@@ -8,27 +8,51 @@ const Snake = () => {
     const canvasSize = 600;
     const snakePartSize = 20;
     const canvasRef = useRef(null);
+    const savedGameState = JSON.parse(localStorage.getItem('snakeGameState'));
+
+    // Constants for default values
     const initialSnakeLength = 3;
     const initialSnake = Array.from({ length: initialSnakeLength }, (_, i) => {
         return { x: 200 - i * snakePartSize, y: 200 };
     });
-    const [snake, setSnake] = useState(initialSnake);
-    const [food, setFood] = useState({ x: 300, y: 300 });
-    const [direction, setDirection] = useState({ x: 0, y: 0 });
-    const [speed, setSpeed] = useState(100);
-    const [score, setScore] = useState(0);
-    const [foodEatenCount, setFoodEatenCount] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [gameStarted, setGameStarted] = useState(false);
-    const [pointMultiplier, setPointMultiplier] = useState(1);
-    const [wallBreakerActive, setWallBreakerActive] = useState(false);
-    const [wallBreakerStartTime, setWallBreakerStartTime] = useState(null);
-    const [wallBreakerTimeLeft, setWallBreakerTimeLeft] = useState(0);
-    const [lives, setLives] = useState(1);  // Starting with 1 life
-    const [leaderboard, setLeaderboard] = useState([]);
-    const [usernameModalOpen, setUsernameModalOpen] = useState(false);
-    const [username, setUsername] = useState("");
-    const [isPaused, setIsPaused] = useState(false);
+
+    // State initializations with localStorage data if available
+    const [snake, setSnake] = useState(savedGameState?.snake || initialSnake);
+    const [food, setFood] = useState(savedGameState?.food || { x: 300, y: 300 });
+    const [direction, setDirection] = useState(savedGameState?.direction || { x: 0, y: 0 });
+    const [speed, setSpeed] = useState(savedGameState?.speed || 100);
+    const [score, setScore] = useState(savedGameState?.score || 0);
+    const [foodEatenCount, setFoodEatenCount] = useState(savedGameState?.foodEatenCount || 0);
+    const [isModalOpen, setIsModalOpen] = useState(savedGameState?.isModalOpen || false);
+    const [gameStarted, setGameStarted] = useState(savedGameState?.gameStarted || false);
+    const [pointMultiplier, setPointMultiplier] = useState(savedGameState?.pointMultiplier || 1);
+    const [wallBreakerActive, setWallBreakerActive] = useState(savedGameState?.wallBreakerActive || false);
+    const [wallBreakerStartTime, setWallBreakerStartTime] = useState(savedGameState?.wallBreakerStartTime || null);
+    const [wallBreakerTimeLeft, setWallBreakerTimeLeft] = useState(savedGameState?.wallBreakerTimeLeft || 0);
+    const [lives, setLives] = useState(savedGameState?.lives || 1);
+    const [leaderboard, setLeaderboard] = useState(savedGameState?.leaderboard || []);
+    const [usernameModalOpen, setUsernameModalOpen] = useState(savedGameState?.usernameModalOpen || false);
+    const [username, setUsername] = useState(savedGameState?.username || "");
+    const [isPaused, setIsPaused] = useState(savedGameState?.isPaused || false);
+
+    useEffect(() => {
+        // Save game state to localStorage
+        const gameState = {
+            snake,
+            food,
+            direction,
+            speed,
+            score,
+            foodEatenCount,
+            gameStarted,
+            pointMultiplier,
+            wallBreakerActive,
+            wallBreakerStartTime,
+            wallBreakerTimeLeft,
+            lives
+        };
+        localStorage.setItem('snakeGameState', JSON.stringify(gameState));
+    }, [snake, food, direction, speed, score, foodEatenCount, gameStarted, pointMultiplier, wallBreakerActive, wallBreakerStartTime, wallBreakerTimeLeft, lives]);
 
 
     const saveScore = async (username, score) => {
@@ -65,7 +89,7 @@ const Snake = () => {
             console.error('Error loading leaderboard:', error);
         }
     };
-    
+
     useEffect(() => {
         fetchLeaderboard();
     }, []);
@@ -106,6 +130,46 @@ const Snake = () => {
             alert("Please enter a username.");
         }
     };
+
+    useEffect(() => {
+        // Save game state to localStorage
+        const gameState = {
+            snake,
+            food,
+            direction,
+            speed,
+            score,
+            foodEatenCount,
+            gameStarted,
+            pointMultiplier,
+            wallBreakerActive,
+            wallBreakerStartTime,
+            wallBreakerTimeLeft,
+            lives
+        };
+        localStorage.setItem('snakeGameState', JSON.stringify(gameState));
+    }, [snake, food, direction, speed, score, foodEatenCount, gameStarted, pointMultiplier, wallBreakerActive, wallBreakerStartTime, wallBreakerTimeLeft, lives]);
+    
+
+    useEffect(() => {
+        const savedGameState = localStorage.getItem('snakeGameState');
+        if (savedGameState) {
+            const gameState = JSON.parse(savedGameState);
+            // Set state variables based on loaded game state
+            setSnake(gameState.snake);
+            setFood(gameState.food);
+            setDirection(gameState.direction);
+            setSpeed(gameState.speed);
+            setScore(gameState.score);
+            setFoodEatenCount(gameState.foodEatenCount);
+            setGameStarted(gameState.gameStarted);
+            setPointMultiplier(gameState.pointMultiplier);
+            setWallBreakerActive(gameState.wallBreakerActive);
+            setWallBreakerStartTime(gameState.wallBreakerStartTime);
+            setWallBreakerTimeLeft(gameState.wallBreakerTimeLeft);
+            setLives(gameState.lives);
+        }
+    }, []);
 
 
     const fillScreen = () => {
@@ -371,7 +435,7 @@ const Snake = () => {
             <Footer/>
             {isPaused && (
             <div className="pause-modal">
-                <p className="pause-modal-content">Paused</p>
+                <p className="pause-modal-content font-bold text-8xl">Paused</p>
             </div>
             )}
             <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>

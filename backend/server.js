@@ -2,6 +2,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); 
 const Score = require('./models/Score');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+const transporter = nodemailer.createTransport({
+   host: 'smtp.gmail.com',
+   port: 587,
+   secure: false,
+   auth: {
+       user: 'theband.teaze@gmail.com',
+       pass: 'qkyp bghp drmy pyvw'
+   }
+});
 
 
 const app = express();
@@ -19,6 +31,30 @@ mongoose.connect('mongodb+srv://raybone:158LcMqOVjgho4rk@teaze.f5ftf3r.mongodb.n
 app.listen(PORT, () => {
    console.log(`Server is running on port ${PORT}`);
 });
+
+app.post('/api/send-email', (req, res) => {
+   const { name, email, message } = req.body;
+
+   console.log("Received email request:", { name, email, message });
+   
+   // Email options
+   const mailOptions = {
+     from: email, 
+     to: 'theband.teaze@gmail.com', 
+     subject: `New message from -- name: ${name} email: ${email}`, // Subject line
+     text: message 
+   };
+
+   console.log("Preparing to send email with options:", mailOptions);
+ 
+   // Send email
+   transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);
+  });
+ });
 
 app.post('/api/scores', async (req, res) => {
    try {
