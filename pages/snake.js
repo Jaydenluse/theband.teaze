@@ -12,46 +12,31 @@ const Snake = () => {
     const initialSnake = Array.from({ length: initialSnakeLength }, (_, i) => {
         return { x: 200 - i * snakePartSize, y: 200 };
     });
-    const [snake, setSnake] = useState(initialSnake);
-    const [food, setFood] = useState({ x: 300, y: 300 });
-    const [direction, setDirection] = useState({ x: 0, y: 0 });
-    const [speed, setSpeed] = useState(100);
-    const [score, setScore] = useState(0);
-    const [foodEatenCount, setFoodEatenCount] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [gameStarted, setGameStarted] = useState(false);
-    const [pointMultiplier, setPointMultiplier] = useState(1);
-    const [wallBreakerActive, setWallBreakerActive] = useState(false);
-    const [wallBreakerStartTime, setWallBreakerStartTime] = useState(null);
-    const [wallBreakerTimeLeft, setWallBreakerTimeLeft] = useState(0);
-    const [lives, setLives] = useState(1);
-    const [leaderboard, setLeaderboard] = useState([]);
-    const [usernameModalOpen, setUsernameModalOpen] = useState(false);
-    const [username, setUsername] = useState("");
-    const [isPaused, setIsPaused] = useState(false);
 
-    useEffect(() => {
-        // Get saved game state from localStorage
-        const savedGameState = JSON.parse(localStorage.getItem('snakeGameState')) || {};
-    
-        setSnake(savedGameState.snake || initialSnake);
-        setFood(savedGameState.food || { x: 300, y: 300 });
-        setDirection(savedGameState.direction || { x: 0, y: 0 });
-        setSpeed(savedGameState.speed || 100);
-        setScore(savedGameState.score || 0);
-        setFoodEatenCount(savedGameState.foodEatenCount || 0);
-        setIsModalOpen(savedGameState.isModalOpen || false);
-        setGameStarted(savedGameState.gameStarted || false);
-        setPointMultiplier(savedGameState.pointMultiplier || 1);
-        setWallBreakerActive(savedGameState.wallBreakerActive || false);
-        setWallBreakerStartTime(savedGameState.wallBreakerStartTime || null);
-        setWallBreakerTimeLeft(savedGameState.wallBreakerTimeLeft || 0);
-        setLives(savedGameState.lives || 1);
-        setLeaderboard(savedGameState.leaderboard || []);
-        setUsernameModalOpen(savedGameState.usernameModalOpen || false);
-        setUsername(savedGameState.username || "");
-        setIsPaused(savedGameState.isPaused || false);
-    }, []);
+    let savedGameState;
+    if (typeof window !== 'undefined') {
+        const savedGameString = localStorage.getItem('snakeGameState');
+        savedGameState = savedGameString ? JSON.parse(savedGameString) : {};
+    }
+
+    // State initializations with localStorage data if available
+    const [snake, setSnake] = useState(savedGameState?.snake || initialSnake);
+    const [food, setFood] = useState(savedGameState?.food || { x: 300, y: 300 });
+    const [direction, setDirection] = useState(savedGameState?.direction || { x: 0, y: 0 });
+    const [speed, setSpeed] = useState(savedGameState?.speed || 100);
+    const [score, setScore] = useState(savedGameState?.score || 0);
+    const [foodEatenCount, setFoodEatenCount] = useState(savedGameState?.foodEatenCount || 0);
+    const [isModalOpen, setIsModalOpen] = useState(savedGameState?.isModalOpen || false);
+    const [gameStarted, setGameStarted] = useState(savedGameState?.gameStarted || false);
+    const [pointMultiplier, setPointMultiplier] = useState(savedGameState?.pointMultiplier || 1);
+    const [wallBreakerActive, setWallBreakerActive] = useState(savedGameState?.wallBreakerActive || false);
+    const [wallBreakerStartTime, setWallBreakerStartTime] = useState(savedGameState?.wallBreakerStartTime || null);
+    const [wallBreakerTimeLeft, setWallBreakerTimeLeft] = useState(savedGameState?.wallBreakerTimeLeft || 0);
+    const [lives, setLives] = useState(savedGameState?.lives || 1);
+    const [leaderboard, setLeaderboard] = useState(savedGameState?.leaderboard || []);
+    const [usernameModalOpen, setUsernameModalOpen] = useState(savedGameState?.usernameModalOpen || false);
+    const [username, setUsername] = useState(savedGameState?.username || "");
+    const [isPaused, setIsPaused] = useState(savedGameState?.isPaused || false);
     
 
     useEffect(() => {
