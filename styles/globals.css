@@ -135,12 +135,32 @@ body {
   color: rgb(0, 255, 0);
 }
 
+.grid-container {
+  display: grid;
+  padding-top: 150px; 
+  margin-left: 40px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+  border: 2px solid #00FF00;
+  margin-top: 50px;
+  height: 200px; 
+  width: 87%;
+}
+
 /* Styles for mobile screens */
 @media (max-width: 600px) {
   .album-container {
     margin: 10px; 
     display: grid;
     place-items: center;
+  }
+
+  .grid-container {
+    display: grid;
+    margin-left: 40px;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .phone-header{

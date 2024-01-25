@@ -37,26 +37,6 @@ const Snake = () => {
     const [usernameModalOpen, setUsernameModalOpen] = useState(savedGameState?.usernameModalOpen || false);
     const [username, setUsername] = useState(savedGameState?.username || "");
     const [isPaused, setIsPaused] = useState(savedGameState?.isPaused || false);
-    
-
-    useEffect(() => {
-        // Save game state to localStorage
-        const gameState = {
-            snake,
-            food,
-            direction,
-            speed,
-            score,
-            foodEatenCount,
-            gameStarted,
-            pointMultiplier,
-            wallBreakerActive,
-            wallBreakerStartTime,
-            wallBreakerTimeLeft,
-            lives
-        };
-        localStorage.setItem('snakeGameState', JSON.stringify(gameState));
-    }, [snake, food, direction, speed, score, foodEatenCount, gameStarted, pointMultiplier, wallBreakerActive, wallBreakerStartTime, wallBreakerTimeLeft, lives]);
 
 
     const saveScore = async (username, score) => {
@@ -149,10 +129,11 @@ const Snake = () => {
             wallBreakerActive,
             wallBreakerStartTime,
             wallBreakerTimeLeft,
-            lives
+            lives,
+            isPaused
         };
         localStorage.setItem('snakeGameState', JSON.stringify(gameState));
-    }, [snake, food, direction, speed, score, foodEatenCount, gameStarted, pointMultiplier, wallBreakerActive, wallBreakerStartTime, wallBreakerTimeLeft, lives]);
+    }, [snake, food, direction, speed, score, foodEatenCount, gameStarted, pointMultiplier, wallBreakerActive, wallBreakerStartTime, wallBreakerTimeLeft, lives, isPaused]);
     
 
     useEffect(() => {
@@ -172,6 +153,7 @@ const Snake = () => {
             setWallBreakerStartTime(gameState.wallBreakerStartTime);
             setWallBreakerTimeLeft(gameState.wallBreakerTimeLeft);
             setLives(gameState.lives);
+            setIsPaused(gameState.isPaused)
         }
     }, []);
 
@@ -285,7 +267,7 @@ const Snake = () => {
     };
 
     const handleKeyDown = (e) => {
-        if (isModalOpen || usernameModalOpen || isPaused) return;
+        if (isModalOpen || usernameModalOpen) return;
     
         let newDirection = { ...direction };
         switch (e.keyCode) {
@@ -369,7 +351,7 @@ const Snake = () => {
             } else {
                 // Game over logic
                 gameOver()
-                return true; // End the game
+                return true; // End the gamechore: add a playwright test for dealer license number in purchase order
             }
         }
     
@@ -556,7 +538,7 @@ const Snake = () => {
                             <li className="mb-2 text-xs">Reset Speed to 100</li>
                             <li className="mb-4 text-xs">Go Thru Walls + Snake (30 seconds)</li>
                         </ul>
-                        <li className="mb-2">If you lose a life your score multiplier will reset back to 1x.</li>
+                        <li className="mb-2">If you lose a life your speed will remain the same but your score multiplier will reset back to 1x.</li>
                         {/* Add more rules as needed */}
                     </ul>
                 </div>

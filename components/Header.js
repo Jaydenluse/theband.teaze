@@ -13,6 +13,9 @@ const Header = () => {
             <Link href="/contact" passHref className="z-40 hover:text-pink-700 transition duration-300 pr-5">
             CONTACT
             </Link>
+            <Link href="/xtras" passHref className="z-40 hover:text-pink-700 transition duration-300 pr-5">
+            XTRAS
+            </Link>
             <Link href="/snake" passHref className="z-40 hover:text-pink-700 transition duration-300 pr-5">
             SNAKE
             </Link>
