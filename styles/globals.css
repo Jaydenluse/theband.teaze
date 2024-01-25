@@ -137,7 +137,6 @@ body {
 
 .grid-container {
   display: grid;
-  padding-top: 150px; 
   margin-left: 40px;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -148,6 +147,36 @@ body {
   height: 200px; 
   width: 87%;
 }
+
+.card-input-container{
+  width: 290px;
+  margin-left: 8px;
+}
+
+.key-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.key-item {
+  display: flex;
+  align-items: center;
+  margin-right: 35px;
+  margin-top: 120px;
+}
+
+.key-square {
+  width: 20px;
+  height: 20px;
+}
+
+.discovered-key-square {
+  border: 2px solid #00FF00;
+  width: 20px;
+  height: 20px;
+}
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {

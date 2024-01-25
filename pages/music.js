@@ -6,7 +6,7 @@ export default function Music() {
 
   return (
     <>
-      <Header className="absolute"/>
+      <Header/>
       <Footer videoLink='https://www.youtube.com/watch?v=0XcYmx57aD0'/>
       <div className="relative min-h-screen">
       <img className="bg-video-container min-h-screen z-10 brightness-75" src="images/music.gif"/>
