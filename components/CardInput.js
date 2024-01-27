@@ -72,12 +72,12 @@ const CardInput = ({ updateCardState }) => {
         onChange={handleInputChange}
         maxLength="19"
         className="text-black p-2 rounded-l w-full focus:outline-none flex-grow flex-shrink"
-      />
-      <button 
-        type="submit" 
-        onClick={handleSubmit} 
-        className="bg-gray-700 hover:bg-pink-700 transition duration-300 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline"
-      >
+        />
+        <button 
+          type="submit" 
+          onClick={handleSubmit} 
+          className="bg-gray-700 hover:bg-pink-700 transition duration-300 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline sm:py-1 sm:px-3"
+        >
         Submit
       </button>    
       <Toast show={showToast} message={toastMessage} />

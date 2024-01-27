@@ -10,7 +10,7 @@ export default function Music() {
       <Footer videoLink='https://www.youtube.com/watch?v=0XcYmx57aD0'/>
       <div className="relative min-h-screen">
       <img className="bg-video-container min-h-screen z-10 brightness-75" src="images/music.gif"/>
-        <div className="video-list-container absolute top-0 left-0 w-full h-full z-20 pr-30 pl-10 absolute flex flex-col items-start justify-center">
+        <div className="absolute top-0 left-0 w-full h-full z-20 pr-30 pl-10 absolute flex flex-col items-start justify-center">
           <YoutubeVideoList />
         </div>
       </div>

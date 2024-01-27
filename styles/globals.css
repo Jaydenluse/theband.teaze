@@ -177,6 +177,35 @@ body {
   height: 20px;
 }
 
+.centered-text {
+  position: absolute;
+  top: 52%;
+  left: 43%;
+  transform: translate(-50%, -50%);
+  color: #d6007c;
+  font-weight: bold;
+  font-size: 65px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-style {
+  height: 200px;
+  width: 87%;
+  filter: brightness(100%);
+  transition: filter 500ms ease;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.card-found {
+  filter: brightness(50%);
+  border-color: #FF1493; /* Pink border for found cards */
+}
+
+.card-not-found {
+  border-color: #00FF00; /* Green border for not found cards */
+}
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {
@@ -186,14 +215,19 @@ body {
     place-items: center;
   }
 
-  .grid-container {
-    display: grid;
-    margin-left: 40px;
-    grid-template-columns: repeat(3, 1fr);
+  .card-style {
+    height: 100px;
+    width: 100%;
+    filter: brightness(100%);
+    transition: filter 500ms ease;
+    border-style: solid;
+    border-width: 2px;
   }
 
-  .phone-header{
-    font-size: 15px;
+  .grid-container {
+    display: grid;
+    margin-left: 0px;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .image-crop-container {
@@ -211,6 +245,31 @@ body {
   .phone-modal{
     width: 300px;
     height: 500px;
+  }
+
+  .card-input-container{
+    width: 200px;
+    margin-left: 8px;
+  }
+
+  .centered-text {
+    position: absolute;
+    top: 52%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    color: #d6007c;
+    font-weight: bold;
+    font-size: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .phone-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 15px;
+  }
+  .phone-header span {
+    margin: 5px; /* Adjust for both top/bottom and left/right margin */
   }
 
   .phone-modal-text{

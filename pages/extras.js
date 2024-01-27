@@ -57,29 +57,13 @@ export default function Extras() {
                 {cards.map((card, index) => (
                     <div key={index} className="card-container" style={{ position: 'relative', display: 'inline-block', margin: '25px' }}>
                         <img 
-                            src={`images/cards/card_${index + 1}.JPG`} 
-                            alt={`Card ${index + 1}`}
-                            style={{
-                                height: '200px',
-                                width: '87%',
-                                filter: card.found ? 'brightness(50%)' : '',
-                                transition: 'filter 500ms ease',
-                                borderStyle: 'solid',
-                                borderWidth: '2px',
-                                borderColor: card.found ? '#FF1493' : '#00FF00'
-                            }} 
+                        key={index} 
+                        src={`images/cards/card_${index + 1}.JPG`} 
+                        alt={`Card ${index + 1}`} 
+                        className={`card-style ${card.found ? 'card-found' : 'card-not-found'}`} 
                         />
                         {card.found && (
-                            <span style={{
-                                position: 'absolute',
-                                top: '52%',
-                                left: '43%',
-                                transform: 'translate(-50%, -50%)',
-                                color: '#d6007c',
-                                fontWeight: 'bold',
-                                fontSize: '65px',
-                                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
-                            }}>
+                            <span className="centered-text">
                                 FOUND
                             </span>
                         )}
