@@ -499,7 +499,7 @@ const Snake = () => {
                     <div style={{ 
                         width: '400px', 
                         marginLeft: '150px', 
-                        marginBottom: '405px', 
+                        marginBottom: '390px', 
                         maxHeight: '50px',  // Set a fixed maximum height
                     }}> 
                         <h3 className="green text-xl font-bold mb-4">Leaderboard</h3>
