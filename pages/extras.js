@@ -9,7 +9,7 @@ export default function Extras() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const response = await fetch(`thebandteazebackend-production.up.railway.app/api/cards`);
+                const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/cards`);
                 const data = await response.json();
                 setCards(data);
             } catch (error) {

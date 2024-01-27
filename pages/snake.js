@@ -42,7 +42,7 @@ const Snake = () => {
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
         try {
-            const response = await fetch(`theband-teaze-backend.railway.internal/api/scores`, {
+            const response = await fetch(`https://theband-teaze-backend.railway.internal/api/scores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

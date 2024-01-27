@@ -8,7 +8,7 @@ const CardInput = ({ updateCardState }) => {
 
   const checkCode = async (code) => {
     try {
-      const response = await fetch(`thebandteazebackend-production.up.railway.app/api/check-code`, {
+      const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/check-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

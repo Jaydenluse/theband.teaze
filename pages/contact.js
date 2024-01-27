@@ -21,7 +21,7 @@ export default function Contact() {
         e.preventDefault();
         console.log("Sending contact info:", contactInfo);
     
-        fetch(`thebandteazebackend-production.up.railway.app/api/send-email`, {
+        fetch(`https://thebandteazebackend-production.up.railway.app/api/send-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(contactInfo)
