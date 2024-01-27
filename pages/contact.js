@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import Toast from '../components/Toast.js';
-require('dotenv').config();
-const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export default function Contact() {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+
     const [showToast, setShowToast] = useState(false);
     const [contactInfo, setContactInfo] = useState({
         name: '',

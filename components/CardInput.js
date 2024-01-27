@@ -5,7 +5,6 @@ const CardInput = ({ updateCardState }) => {
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  require('dotenv').config();
   const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
   const checkCode = async (code) => {

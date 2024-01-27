@@ -2,10 +2,9 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CardInput from "../components/CardInput";
 import { useState, useEffect } from 'react';
-require('dotenv').config();
-const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export default function Extras() {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
     const [cards, setCards] = useState([]);
 
     useEffect(() => {

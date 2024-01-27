@@ -3,10 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import SnakeModal from '../components/SnakeModal.js';
-require('dotenv').config();
-const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 const Snake = () => {
+    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
     const canvasSize = 600;
     const snakePartSize = 20;
     const canvasRef = useRef(null);
