@@ -9,7 +9,7 @@ export default function Extras() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/cards`);
+                const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/getcards`);
                 const data = await response.json();
                 setCards(data);
             } catch (error) {
@@ -23,7 +23,7 @@ export default function Extras() {
     // Function to update card state
     const updateCardState = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/cards');
+            const response = await fetch('http://localhost:5000/api/getcards');
             const data = await response.json();
             setCards(data);
         } catch (error) {

@@ -81,7 +81,7 @@ app.get('/api/scores', async (req, res) => {
    }
 });
 
-app.get('/api/cards', async (req, res) => {
+app.get('/api/getcards', async (req, res) => {
    try {
        const cards = await Card.find({});
        res.send(cards);

@@ -42,7 +42,7 @@ const Snake = () => {
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
         try {
-            const response = await fetch(`https://theband-teaze-backend.railway.internal/api/scores`, {
+            const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/scores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const Snake = () => {
 
     const fetchLeaderboard = async () => {
         try {
-            const response = await fetch(`${urlApi}/api/scores`);
+            const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/scores`);
             if (!response.ok) throw new Error('Failed to load leaderboard');
             const data = await response.json();
             setLeaderboard(data);
