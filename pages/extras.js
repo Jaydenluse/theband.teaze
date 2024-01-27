@@ -4,13 +4,12 @@ import CardInput from "../components/CardInput";
 import { useState, useEffect } from 'react';
 
 export default function Extras() {
-    const apiUrl = 'theband-teaze-backend.railway.internal';
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const response = await fetch(`${apiUrl}/api/cards`);
+                const response = await fetch(`thebandteazebackend-production.up.railway.app/api/cards`);
                 const data = await response.json();
                 setCards(data);
             } catch (error) {

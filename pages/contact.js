@@ -4,8 +4,6 @@ import Footer from '../components/Footer.js';
 import Toast from '../components/Toast.js';
 
 export default function Contact() {
-    const apiUrl = 'theband-teaze-backend.railway.internal';
-
     const [showToast, setShowToast] = useState(false);
     const [contactInfo, setContactInfo] = useState({
         name: '',
@@ -23,7 +21,7 @@ export default function Contact() {
         e.preventDefault();
         console.log("Sending contact info:", contactInfo);
     
-        fetch(`'${apiUrl}/api/send-email`, {
+        fetch(`thebandteazebackend-production.up.railway.app/api/send-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(contactInfo)

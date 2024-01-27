@@ -5,11 +5,10 @@ const CardInput = ({ updateCardState }) => {
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const apiUrl = 'theband-teaze-backend.railway.internal';
 
   const checkCode = async (code) => {
     try {
-      const response = await fetch(`${apiUrl}/api/check-code`, {
+      const response = await fetch(`thebandteazebackend-production.up.railway.app/api/check-code`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

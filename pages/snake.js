@@ -5,7 +5,6 @@ import Footer from '../components/Footer.js';
 import SnakeModal from '../components/SnakeModal.js';
 
 const Snake = () => {
-    const apiUrl = 'theband-teaze-backend.railway.internal';
     const canvasSize = 600;
     const snakePartSize = 20;
     const canvasRef = useRef(null);
@@ -43,7 +42,7 @@ const Snake = () => {
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
         try {
-            const response = await fetch(`${apiUrl}/api/scores`, {
+            const response = await fetch(`theband-teaze-backend.railway.internal/api/scores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
