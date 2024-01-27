@@ -1,8 +1,35 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CardInput from "../components/CardInput";
+import { useState, useEffect } from 'react';
 
 export default function Extras() {
+    const [cards, setCards] = useState([]);
+
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/cards');
+                const data = await response.json();
+                setCards(data);
+            } catch (error) {
+                console.error('Error fetching cards:', error);
+            }
+        };
+
+        fetchCards();
+    }, []);
+
+    // Function to update card state
+    const updateCardState = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/cards');
+            const data = await response.json();
+            setCards(data);
+        } catch (error) {
+            console.error('Error fetching updated cards:', error);
+        }
+    };
 
     // brightness-50 and red/pink border when the card is discovered
 
@@ -22,17 +49,28 @@ export default function Extras() {
                     </div>
                 </div>
                 <div className="card-input-container flex">
-                <CardInput/> 
-               <button type="submit" className="bg-gray-700 hover:bg-pink-700 transition duration-300 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline">Submit</button>
+                <CardInput updateCardState={updateCardState}/> 
                 </div>
             </div>
 
                 <div className="grid-container">
-                    <img src="images/cards/card_1.JPG" alt="Card" className="card" />
-                    <img src="images/cards/card_2.JPG" alt="Card" className="card" />
-                    <img src="images/cards/card_3.JPG" alt="Card" className="card" />
-                    <img src="images/cards/card_4.JPG" alt="Card" className="card" />
-                    <img src="images/cards/card_5.JPG" alt="Card" className="card" />
+                {cards.map((card, index) => (
+                    <img 
+                        key={index} 
+                        src={`images/cards/card_${index + 1}.JPG`} 
+                        alt="Card" 
+                        style={{
+                            marginTop: '50px',
+                            height: '200px',
+                            width: '87%',
+                            filter: card.found ? 'brightness(50%)' : '',
+                            transition: 'filter 500ms ease',
+                            borderStyle: 'solid',
+                            borderWidth: '2px',
+                            borderColor: card.found ? '#FF1493' : '#00FF00'
+                        }} 
+                    />
+                ))}
                 </div>
             <Footer videoLink='https://www.youtube.com/watch?v=FFlWJHOUhhs'/>
         </>
