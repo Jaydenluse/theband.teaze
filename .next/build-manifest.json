@@ -27,10 +27,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/contact": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/contact.js"
+    ],
+    "/extras": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/extras.js"
+    ],
     "/music": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/music.js"
+    ],
+    "/snake": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/snake.js"
     ]
   },
   "ampFirstPages": []

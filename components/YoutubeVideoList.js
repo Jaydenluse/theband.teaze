@@ -56,7 +56,7 @@ const AlbumComponent = () => {
               className="image-crop-container cursor-pointer"
               style={{ backgroundImage: `url(${album.imageUrl})` }}
             ></div>
-            <h3 className="album-title text-xl font-bold text-white p-3 text-center">
+            <h3 className="album-title font-bold text-white p-3 text-center">
               {album.title}
             </h3>
           </div>
