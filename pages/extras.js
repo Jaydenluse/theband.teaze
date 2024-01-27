@@ -2,6 +2,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CardInput from "../components/CardInput";
 import { useState, useEffect } from 'react';
+require('dotenv').config();
+const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export default function Extras() {
     const [cards, setCards] = useState([]);
@@ -9,7 +11,7 @@ export default function Extras() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/cards');
+                const response = await fetch(`${apiUrl}/api/cards`);
                 const data = await response.json();
                 setCards(data);
             } catch (error) {

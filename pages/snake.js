@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header.js';
 import Footer from '../components/Footer.js';
 import SnakeModal from '../components/SnakeModal.js';
+require('dotenv').config();
+const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 const Snake = () => {
     const canvasSize = 600;
@@ -42,7 +44,7 @@ const Snake = () => {
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
         try {
-            const response = await fetch('http://localhost:5000/api/scores', {
+            const response = await fetch(`${apiUrl}/api/scores`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ const Snake = () => {
 
     const fetchLeaderboard = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/scores');
+            const response = await fetch(`${urlApi}/api/scores`);
             if (!response.ok) throw new Error('Failed to load leaderboard');
             const data = await response.json();
             setLeaderboard(data);
