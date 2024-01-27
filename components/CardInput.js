@@ -5,7 +5,7 @@ const CardInput = ({ updateCardState }) => {
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+  const apiUrl = 'theband-teaze-backend.railway.internal';
 
   const checkCode = async (code) => {
     try {

@@ -4,7 +4,7 @@ import Footer from '../components/Footer.js';
 import Toast from '../components/Toast.js';
 
 export default function Contact() {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+    const apiUrl = 'theband-teaze-backend.railway.internal';
 
     const [showToast, setShowToast] = useState(false);
     const [contactInfo, setContactInfo] = useState({

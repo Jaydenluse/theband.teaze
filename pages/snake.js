@@ -5,7 +5,7 @@ import Footer from '../components/Footer.js';
 import SnakeModal from '../components/SnakeModal.js';
 
 const Snake = () => {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+    const apiUrl = 'theband-teaze-backend.railway.internal';
     const canvasSize = 600;
     const snakePartSize = 20;
     const canvasRef = useRef(null);

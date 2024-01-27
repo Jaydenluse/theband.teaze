@@ -4,7 +4,7 @@ import CardInput from "../components/CardInput";
 import { useState, useEffect } from 'react';
 
 export default function Extras() {
-    const apiUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+    const apiUrl = 'theband-teaze-backend.railway.internal';
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
