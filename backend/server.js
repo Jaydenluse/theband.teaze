@@ -58,8 +58,13 @@ app.post('/api/send-email', (req, res) => {
  });
 
 app.post('/api/scores', async (req, res) => {
+   MAX_SCORE = 3
    try {
      const { username, score } = req.body;
+     const currentCount = await Score.countDocuments();
+     if (currentCount >= MAX_SCORES) {
+         await Score.findOneAndDelete().sort({ score: 1 });
+     }
      const newScore = new Score({ username, score });
      await newScore.save();
      res.status(201).send(newScore);

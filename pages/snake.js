@@ -38,6 +38,7 @@ const Snake = () => {
     const [username, setUsername] = useState(savedGameState?.username || "");
     const [isPaused, setIsPaused] = useState(savedGameState?.isPaused || false);
 
+    const MAX_SCORES = 3000000;
 
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
