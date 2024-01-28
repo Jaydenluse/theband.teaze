@@ -57,8 +57,8 @@ app.post('/api/send-email', (req, res) => {
   });
  });
 
-app.post('/api/scores', async (req, res) => {
-   const MAX_SCORE = 3
+ app.post('/api/scores', async (req, res) => {
+   const MAX_SCORES = 3; 
    try {
      const { username, score } = req.body;
      const currentCount = await Score.countDocuments();
@@ -70,8 +70,7 @@ app.post('/api/scores', async (req, res) => {
      res.status(201).send(newScore);
    } catch (error) {
      console.error(error); 
-     res.status(500).send(error.message);
-     res.status(404).send(error.message);
+     res.status(500).send(error.message); // Send a single error response
    }
 });
 
