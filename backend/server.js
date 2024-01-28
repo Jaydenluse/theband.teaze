@@ -58,7 +58,7 @@ app.post('/api/send-email', (req, res) => {
  });
 
 app.post('/api/scores', async (req, res) => {
-   MAX_SCORE = 3
+   const MAX_SCORE = 3
    try {
      const { username, score } = req.body;
      const currentCount = await Score.countDocuments();
