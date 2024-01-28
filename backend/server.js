@@ -18,9 +18,7 @@ const transporter = nodemailer.createTransport({
 
 
 const app = express();
-app.use(cors({
-   origin: 'https://theband-teaze.up.railway.app'
-}));
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT;
@@ -79,10 +77,6 @@ app.post('/api/send-email', (req, res) => {
 
        // Send back the new score, rank, and total number of entries
        res.status(201).send({ score: newScore, rank, totalEntries });
-
-       // Send back the new score and rank
-       res.status(201).send({ score: newScore, rank });
-
    } catch (error) {
        console.error(error);
        res.status(500).send({ message: error.message });
