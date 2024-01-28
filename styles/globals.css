@@ -162,6 +162,8 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  padding-top: 115px;
+  padding-bottom: 25px;
 }
 
 .key-item {
@@ -245,6 +247,14 @@ body {
   margin-top: 35px;
 }
 
+.found-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-58%, -50%);
+  width: 250px;
+}
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {
@@ -288,6 +298,15 @@ body {
   .phone-modal{
     width: 300px;
     height: 500px;
+  }
+
+  .found-image {
+    left: 55%;
+    width: 125px;
+  }
+
+  .key-container {
+    padding-bottom: 5px;
   }
 
   .name{

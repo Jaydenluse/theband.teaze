@@ -117,7 +117,7 @@ app.post('/api/cards', async (req, res) => {
        await matchingCard.save();
 
        const message = matchingCard.prize 
-         ? 'Congratulations! You won a prize!' 
+         ? 'Congratulations! You won a free t-shirt!' 
          : 'Code matched, but no prize.';
 
        res.send({ match: true, prize: matchingCard.prize, found: true, message: message });

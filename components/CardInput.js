@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Toast from './Toast'; 
 
-const CardInput = ({ updateCardState }) => {
+const CardInput = ({ updateCardState, onPrizeWin }) => {
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -28,6 +28,9 @@ const CardInput = ({ updateCardState }) => {
         setToastMessage(data.message);
         setTimeout(() => setShowToast(false), 3000);
         updateCardState();
+        if (data.prize) {
+          onPrizeWin(true); // Show the modal for winning a prize
+        }
       } else {
         setShowToast(true);
         console.log(data.message); 
