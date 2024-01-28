@@ -255,6 +255,18 @@ body {
   width: 250px;
 }
 
+.rank-notification {
+  position: fixed; /* or absolute, depending on layout */
+  top: 50%; /* adjust as needed */
+  left: 50%; /* adjust as needed */
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: lime;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {

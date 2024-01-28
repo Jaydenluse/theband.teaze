@@ -37,8 +37,24 @@ const Snake = () => {
     const [usernameModalOpen, setUsernameModalOpen] = useState(savedGameState?.usernameModalOpen || false);
     const [username, setUsername] = useState(savedGameState?.username || "");
     const [isPaused, setIsPaused] = useState(savedGameState?.isPaused || false);
+    const [playerRank, setPlayerRank] = useState(null);
+    const [showRankNotification, setShowRankNotification] = useState(false);
+    const [totalEntries, setTotalEntries] = useState(null);
 
-    const MAX_SCORES = 3000000;
+    const handleUsernameModalClose = () => {
+        if (playerRank !== null) {
+            setTimeout(() => {
+                setShowRankNotification(true);
+                console.log("Showing rank notification after 1 second");
+        
+                setTimeout(() => {
+                    setShowRankNotification(false);
+                    setPlayerRank(null); // Optionally reset the player rank
+                    console.log("Hiding rank notification");
+                }, 3000); // Time for how long the rank notification will stay visible
+            }, 1000); // 1-second delay before showing the rank notification
+        }
+    };
 
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
@@ -57,7 +73,9 @@ const Snake = () => {
                 throw new Error('Score submission failed');
             }
     
-            console.log('Score saved successfully:', data);
+            console.log(`Score saved successfully. Your rank is: ${data.rank}`);
+            setPlayerRank(data.rank);
+            setTotalEntries(data.totalEntries);
             await fetchLeaderboard();
         } catch (error) {
             console.error('Error:', error);
@@ -102,6 +120,7 @@ const Snake = () => {
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleUsernameSubmit();
+            handleUsernameModalClose();
         }
     };
     
@@ -459,6 +478,12 @@ const Snake = () => {
                     </p>
             </div>
             </SnakeModal>
+            {/* Show the rank after the modal is closed */}
+            {showRankNotification && (
+            <div className="rank-notification">
+                <p>You placed: {playerRank} out of {totalEntries}</p>
+            </div>
+        )}
             <SnakeModal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="text-container p-4 border border-lime-400 rounded-md glowing-border">
                     <h2 className="text-2xl font-bold green mb-6 text-center">- - - - Python's Parlor - - - -</h2>

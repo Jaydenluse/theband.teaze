@@ -60,17 +60,30 @@ app.post('/api/send-email', (req, res) => {
  app.post('/api/scores', async (req, res) => {
    const MAX_SCORES = 3000000;
    try {
-     const { username, score } = req.body;
-     const currentCount = await Score.countDocuments();
-     if (currentCount >= MAX_SCORES) {
-         await Score.findOneAndDelete().sort({ score: 1 });
-     }
-     const newScore = new Score({ username, score });
-     await newScore.save();
-     res.status(201).send(newScore);
+       const { username, score } = req.body;
+       const currentCount = await Score.countDocuments();
+       if (currentCount >= MAX_SCORES) {
+           await Score.findOneAndDelete().sort({ score: 1 });
+       }
+
+       // Save the new score
+       const newScore = new Score({ username, score });
+       await newScore.save();
+
+       // Calculate rank: count how many scores are greater than or equal to the submitted score
+       const rank = await Score.countDocuments({ score: { $gte: score } });
+
+       const totalEntries = await Score.countDocuments();
+
+       // Send back the new score, rank, and total number of entries
+       res.status(201).send({ score: newScore, rank, totalEntries });
+
+       // Send back the new score and rank
+       res.status(201).send({ score: newScore, rank });
+
    } catch (error) {
-     console.error(error); 
-     res.status(500).send(error.message); // Send a single error response
+       console.error(error);
+       res.status(500).send({ message: error.message });
    }
 });
 
