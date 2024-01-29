@@ -40,21 +40,31 @@ const Snake = () => {
     const [playerRank, setPlayerRank] = useState(null);
     const [showRankNotification, setShowRankNotification] = useState(false);
     const [totalEntries, setTotalEntries] = useState(null);
+    const [showTransition, setShowTransition] = useState(false);
 
-    const handleUsernameModalClose = () => {
+
+    useEffect(() => {
         if (playerRank !== null) {
-            setTimeout(() => {
-                setShowRankNotification(true);
-                console.log("Showing rank notification after 1 second");
-        
-                setTimeout(() => {
-                    setShowRankNotification(false);
-                    setPlayerRank(null); // Optionally reset the player rank
-                    console.log("Hiding rank notification");
-                }, 3000); // Time for how long the rank notification will stay visible
-            }, 1000); // 1-second delay before showing the rank notification
+            setShowRankNotification(true);
+            console.log("Showing rank notification");
+
+            const transitionDelay = setTimeout(() => {
+                setShowTransition(true);
+            }, 100); // 100ms delay
+    
+            const hideTimer = setTimeout(() => {
+                setShowRankNotification(false);
+                setPlayerRank(null); // Optionally reset the player rank
+                setShowTransition(false);
+                console.log("Hiding rank notification");
+            }, 3000); // Display rank for 3 seconds
+    
+            return () => {
+                clearTimeout(hideTimer);
+                clearTimeout(transitionDelay);
+            };
         }
-    };
+    }, [playerRank]);
 
     const saveScore = async (username, score) => {
         console.log(`Saving score for ${username}: ${score}`);
@@ -120,15 +130,17 @@ const Snake = () => {
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleUsernameSubmit();
-            handleUsernameModalClose();
         }
     };
     
     const handleUsernameSubmit = () => {
         if (username) {
             saveScore(username, score).then(() => {
-                setUsernameModalOpen(false); // Close the modal
+                setUsernameModalOpen(false); // Close the username modal
                 resetGame(); // Reset the game
+            }).catch(error => {
+                console.error('Failed to save score:', error);
+                resetGame();
             });
         } else {
             alert("Please enter a username.");
@@ -480,8 +492,8 @@ const Snake = () => {
             </SnakeModal>
             {/* Show the rank after the modal is closed */}
             {showRankNotification && (
-            <div className="rank-notification">
-                <p>You placed: {playerRank} out of {totalEntries}</p>
+            <div className={`rank-notification ${showTransition ? 'show' : ''}`}>
+                <p className="text-2xl font-bold">You placed: {playerRank} out of {totalEntries}</p>
             </div>
         )}
             <SnakeModal isOpen={isModalOpen} onClose={closeModal}>
