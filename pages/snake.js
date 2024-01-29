@@ -41,6 +41,7 @@ const Snake = () => {
     const [showRankNotification, setShowRankNotification] = useState(false);
     const [totalEntries, setTotalEntries] = useState(null);
     const [showTransition, setShowTransition] = useState(false);
+    const [isGridVisible, setIsGridVisible] = useState(true); 
 
 
     useEffect(() => {
@@ -417,6 +418,16 @@ const Snake = () => {
         
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+        if (isGridVisible) {
+            const gridSize = 20; // Size of each grid cell
+            context.strokeStyle = 'rgba(211, 211, 211, 0.2)'; // Light grey with 50% opacity
+            for (let x = 0; x < canvasSize; x += gridSize) {
+                for (let y = 0; y < canvasSize; y += gridSize) {
+                    context.strokeRect(x, y, gridSize, gridSize);
+                }
+            }
+        }
     
         context.font = "14px Inter, sans-serif";
         context.fillStyle = "lime";
@@ -445,12 +456,15 @@ const Snake = () => {
         context.fillStyle = (foodEatenCount % 10 === 0 && foodEatenCount !== 0) ? 'gold' : 'red';
         context.fillRect(food.x, food.y, snakePartSize, snakePartSize);
 
-    }, [snake, food, score, foodEatenCount, gameStarted, lives]);
+    }, [snake, food, score, foodEatenCount, gameStarted, lives, isGridVisible]);
 
     return (
         <>
             <Header/>
             <Footer/>
+            <button className={`grid-toggle ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
+                {isGridVisible ? '' : ''}
+            </button>
             {isPaused && (
             <div className="pause-modal">
                 <p className="pause-modal-content font-bold text-8xl">Paused</p>
