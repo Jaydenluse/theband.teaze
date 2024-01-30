@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="phone-header z-50 fixed flex p-10 text-white text-2xl font-bold">
+    <nav className="phone-header z-50 fixed flex p-5 text-white text-2xl font-bold">
       <Link href="/" passHref>
         <span className={isActive("/")}>HOME</span>
       </Link>

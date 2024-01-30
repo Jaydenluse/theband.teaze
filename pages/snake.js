@@ -7,7 +7,7 @@ import SnakeModal from '../components/SnakeModal.js';
 const Snake = () => {
     const canvasSize = 600;
     const snakePartSize = 20;
-    const canvasRef = useRef(null);
+    const canvasRef = useRef(null);  
     const initialSnakeLength = 3;
     const initialSnake = Array.from({ length: initialSnakeLength }, (_, i) => {
         return { x: 200 - i * snakePartSize, y: 200 };
@@ -42,7 +42,26 @@ const Snake = () => {
     const [totalEntries, setTotalEntries] = useState(null);
     const [showTransition, setShowTransition] = useState(false);
     const [isGridVisible, setIsGridVisible] = useState(true); 
+    const [colorFilter, setColorFilter] = useState(0); 
 
+    const sliderRef = useRef(null);
+
+    useEffect(() => {
+        const slider = sliderRef.current;
+        const preventArrowKey = (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+                e.preventDefault();
+            }
+        };
+    
+        slider.addEventListener('keydown', preventArrowKey);
+    
+        return () => slider.removeEventListener('keydown', preventArrowKey);
+    }, []);
+
+    const handleSliderChange = (e) => {
+        setColorFilter(e.target.value);
+    };
 
     useEffect(() => {
         if (playerRank !== null) {
@@ -319,6 +338,9 @@ const Snake = () => {
             case 32: // space bar for pause/unpause
                 setIsPaused(prev => !prev);
                 return;
+            case 71: //g key
+                setIsGridVisible(prev => !prev);
+                return;
             default:
                 return;
         }
@@ -493,8 +515,20 @@ const Snake = () => {
         snake.forEach(part => context.fillRect(part.x, part.y, snakePartSize, snakePartSize));
         
         // Draw the food
-        context.fillStyle = (foodEatenCount % 10 === 0 && foodEatenCount !== 0) ? 'gold' : 'red';
+        if (foodEatenCount % 10 === 0 && foodEatenCount !== 0) {
+            context.fillStyle = 'gold';
+            context.shadowBlur = 10;
+            context.shadowColor = 'gold';
+        } else {
+            context.fillStyle = 'red';
+            context.shadowBlur = 0;
+            context.shadowColor = 'transparent';
+        }
         context.fillRect(food.x, food.y, snakePartSize, snakePartSize);
+    
+        // Reset shadow properties
+        context.shadowBlur = 0;
+        context.shadowColor = 'transparent';
 
     }, [snake, food, score, foodEatenCount, gameStarted, lives, isGridVisible]);
 
@@ -502,139 +536,156 @@ const Snake = () => {
         <>
             <Header/>
             <Footer/>
-            <button className={`grid-toggle ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
-                {isGridVisible ? '' : ''}
-            </button>
-            {isPaused && (
-            <div className="pause-modal">
-                <p className="pause-modal-content font-bold text-8xl">Paused</p>
-            </div>
-            )}
-            <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>
-            <div className="username-input-container">
-                <input
-                    type="text"
-                    maxLength="3"
-                    placeholder="Enter Username"
-                    style={{
-                        backgroundColor: 'black',
-                        color: 'lime',
-                        border: '2px solid lime',
-                        outline: 'none',
-                        padding: '10px',
-                        width: '200px',
-                        borderRadius: '5px',
-                        fontSize: '16px',
-                        textAlign: 'center',
-                        transition: 'background-color 0.3s ease',
-                        '::placeholder': {
-                            color: 'rgba(255, 255, 255, 0.5)'
-                        },
-                        ':focus': {
-                            backgroundColor: '#32CD32'  
-                        }
-                    }}
-                    className="username-input"
-                    onChange={(e) => setUsername(e.target.value.toUpperCase().substring(0, 6))}
-                    onKeyPress={(e) => handleKeyPress(e)}
-                    value={username}
-                />
-                    <p style={{ color: 'lime', fontSize: '12px', marginTop: '10px' }}>
-                        Press 'Enter' to submit
-                    </p>
-            </div>
-            </SnakeModal>
-            {/* Show the rank after the modal is closed */}
-            {showRankNotification && (
-            <div className={`rank-notification ${showTransition ? 'show' : ''}`}>
-                <p className="text-2xl font-bold">You placed: {playerRank} out of {totalEntries}</p>
-            </div>
-        )}
-            <SnakeModal isOpen={isModalOpen} onClose={closeModal}>
-                <div className="text-container p-4 border border-lime-400 rounded-md glowing-border">
-                    <h2 className="text-2xl font-bold green text-center">- - - - Python's Parlor - - - -</h2>
-                    <p className="text-xs green mb-6 mt-2 text-center">Click or press 1, 2, or 3 to select.</p>
-                    {(foodEatenCount % 50) != 1 ? 
-                        (
-                        <>
-                            <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={halveSnakeSize}>
-                                (1) Half Snake Size
-                            </button>
-                            <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={increasePointMultiplier}>
-                                (2) Increase Score Multiplier (Current: {pointMultiplier}x)
-                            </button>
-                            <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={keepSpeed}>
-                                (3) Keep Same Speed
-                            </button>
-                        </>
-                        ) : 
-                        (
-                        <>
-                            <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={addLife}>
-                                (1) +1 Life
-                            </button>
-                            <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={resetSpeed}>
-                                (2) Reset Speed to 100
-                            </button>
-                            <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={activateWallBreaker}>
-                                (3) Go Thru Walls + Snake (30 seconds)
-                            </button>
-                        </>
-                        )
-                    }
-                </div>
-            </SnakeModal>
 
-            
-            <div className="flex justify-center items-center h-screen bg-black">
-                <div className="flex justify-start" style={{ maxWidth: '200px', flexWrap: 'nowrap' }}> 
-                    {/* Leaderboard Section */}
-                    <div style={{ 
-                        width: '500px', 
-                        marginLeft: '150px', 
-                        marginBottom: '470px', 
-                        maxHeight: '50px',  // Set a fixed maximum height
-                    }}> 
-                        <h3 className="green text-l font-bold mb-4">Leaderboard</h3>
-                        <ul className="green text-sm">
-                            {leaderboard.map((entry, index) => (
-                                <li key={index}>
-                                    {index + 1}. {entry.username} -- {entry.score}
-                                </li>
-                            ))}
+
+            {/* Main Game Container with Color Filter */}
+            <div className="game-container" style={{ filter: `hue-rotate(${colorFilter}deg)` }}>
+                {isPaused && (
+                <div className="pause-modal">
+                    <p className="pause-modal-content font-bold text-8xl">Paused</p>
+                </div>
+                )}
+                {/* Slider to control color filter */}
+                <div className="color-filter-slider" style={{ zIndex: 10, position: 'absolute', top: '6.5px', left: '10px', paddingLeft: '1250px' }}>
+                    <input 
+                        type="range" 
+                        ref={sliderRef}
+                        min="0" 
+                        max="360" 
+                        value={colorFilter} 
+                        onChange={handleSliderChange}
+                        style={{ width: '200px' }}
+                    />
+                </div>
+                <button className={`grid-toggle ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
+                    {isGridVisible ? '' : ''}
+                </button>
+                <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>
+                <div className="username-input-container z-500">
+                    <input
+                        type="text"
+                        maxLength="3"
+                        placeholder="Enter Username"
+                        style={{
+                            backgroundColor: 'black',
+                            color: 'lime',
+                            border: '2px solid lime',
+                            outline: 'none',
+                            padding: '10px',
+                            width: '150px',
+                            borderRadius: '5px',
+                            fontSize: '16px',
+                            textAlign: 'center',
+                            transition: 'background-color 0.3s ease',
+                            '::placeholder': {
+                                color: 'rgba(255, 255, 255, 0.5)'
+                            },
+                            ':focus': {
+                                backgroundColor: '#32CD32'  
+                            }
+                        }}
+                        className="username-input"
+                        onChange={(e) => setUsername(e.target.value.toUpperCase().substring(0, 6))}
+                        onKeyPress={(e) => handleKeyPress(e)}
+                        value={username}
+                    />
+                        <p style={{ color: 'lime', fontSize: '12px', marginTop: '10px' }}>
+                            Press 'Enter' to submit
+                        </p>
+                </div>
+                </SnakeModal>
+                {/* Show the rank after the modal is closed */}
+                {showRankNotification && (
+                <div className={`rank-notification ${showTransition ? 'show' : ''}`}>
+                    <p className="text-2xl font-bold">You placed: {playerRank} out of {totalEntries}</p>
+                </div>
+            )}
+                <SnakeModal isOpen={isModalOpen} onClose={closeModal}>
+                    <div className="text-container p-4 border border-lime-400 rounded-md glowing-border">
+                        <h2 className="text-2xl font-bold green text-center">- - - - Python's Parlor - - - -</h2>
+                        <p className="text-xs green mb-6 mt-2 text-center">(Click the buttons or press 1, 2, or 3 to select)</p>
+                        {(foodEatenCount % 50) != 1 ? 
+                            (
+                            <>
+                                <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={halveSnakeSize}>
+                                    (1) Half Snake Size
+                                </button>
+                                <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={increasePointMultiplier}>
+                                    (2) Increase Score Multiplier (Current: {pointMultiplier}x)
+                                </button>
+                                <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={keepSpeed}>
+                                    (3) Keep Same Speed
+                                </button>
+                            </>
+                            ) : 
+                            (
+                            <>
+                                <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={addLife}>
+                                    (1) +1 Life
+                                </button>
+                                <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={resetSpeed}>
+                                    (2) Reset Speed to 100
+                                </button>
+                                <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={activateWallBreaker}>
+                                    (3) Go Thru Walls + Snake (30 seconds)
+                                </button>
+                            </>
+                            )
+                        }
+                    </div>
+                </SnakeModal>
+
+                
+                <div className="flex justify-center items-center h-screen bg-black">
+                    <div className="flex justify-start" style={{ maxWidth: '250px', flexWrap: 'nowrap' }}> 
+                        {/* Leaderboard Section */}
+                        <div style={{ 
+                            width: '500px', 
+                            marginLeft: '150px', 
+                            marginBottom: '470px', 
+                            maxHeight: '50px',  // Set a fixed maximum height
+                        }}> 
+                            <h3 className="green text-l font-bold mb-4">Leaderboard</h3>
+                            <ul className="green text-sm">
+                                {leaderboard.map((entry, index) => (
+                                    <li key={index}>
+                                        {index + 1}. {entry.username} -- {entry.score}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                {/* Canvas and Rules Container */}
+                <div className="flex justify-center flex-1 pt-20" style={{paddingLeft: '180px'}}>
+                    {/* Canvas Container */}
+                    <div style={{ maxWidth: '600px' }}>
+                        <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="snake-canvas" />
+                    </div>
+
+                    {/* Rules Section */}
+                    <div className="rules-container" style={{ width: '450px', paddingLeft: '80px', paddingRight: '80px' }}>
+                        <h3 className="green text-l font-bold mb-4 text-center">Game Rules</h3>
+                        <ul className="green text-sm list-disc pl-5">
+                            <li className="mb-2">Use the arrow keys to move the snake.</li>
+                            <li className="mb-2">Press the spacebar to pause/unpause the game.</li>
+                            <li className="mb-2">In the top left corner is a color scroller and a button to toggle a grid on the map. (or press 'G')</li>
+                            <li className="mb-4">As you eat tokens your score will increase by a multiplier that starts at 1x.</li>
+                            <li className="mb-2">Every 10th token eaten, the speed will increase gradually, you will also have a choice of various boosts.</li>
+                            <ul className="pl-8 list-disc">
+                                <li className="mb-2 text-xs">Half Snake Size</li>
+                                <li className="mb-2 text-xs">Points Multiplier (compounds)</li>
+                                <li className="mb-4 text-xs">Keep Same Speed</li>
+                            </ul>
+                            <li className="mb-2">Every 50th token you will have a choice of better boosts.</li>
+                            <ul className="pl-8 list-disc">
+                                <li className="mb-2 text-xs">+1 Life</li>
+                                <li className="mb-2 text-xs">Reset Speed to 100</li>
+                                <li className="mb-4 text-xs">Go Thru Walls + Snake (30 seconds)</li>
+                            </ul>
+                            <li className="mb-2">If you lose a life your speed will remain the same but your score multiplier will reset back to 1x.</li>
+                            {/* Add more rules as needed */}
                         </ul>
                     </div>
-                </div>
-            {/* Canvas and Rules Container */}
-            <div className="flex justify-center flex-1 pt-20" style={{paddingLeft: '180px'}}>
-                {/* Canvas Container */}
-                <div style={{ maxWidth: '600px' }}>
-                    <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="snake-canvas" />
-                </div>
-
-                {/* Rules Section */}
-                <div className="rules-container" style={{ width: '450px', paddingLeft: '80px', paddingRight: '80px' }}>
-                    <h3 className="green text-l font-bold mb-4 text-center">Game Rules</h3>
-                    <ul className="green text-sm list-disc pl-5">
-                        <li className="mb-2">Use the arrow keys to move the snake.</li>
-                        <li className="mb-2">Press the spacebar to pause/unpause the game.</li>
-                        <li className="mb-2">In the top left corner is a button to toggle a grid on the map. (or press G)</li>
-                        <li className="mb-4">As you eat tokens your score will increase by a multiplier that starts at 1x.</li>
-                        <li className="mb-2">Every 10th token eaten, the speed will increase gradually, you will also have a choice of various boosts.</li>
-                        <ul className="pl-8 list-disc">
-                            <li className="mb-2 text-xs">Half Snake Size</li>
-                            <li className="mb-2 text-xs">Points Multiplier (compounds)</li>
-                            <li className="mb-4 text-xs">Keep Same Speed</li>
-                        </ul>
-                        <li className="mb-2">Every 50th token you will have a choice of better boosts.</li>
-                        <ul className="pl-8 list-disc">
-                            <li className="mb-2 text-xs">+1 Life</li>
-                            <li className="mb-2 text-xs">Reset Speed to 100</li>
-                            <li className="mb-4 text-xs">Go Thru Walls + Snake (30 seconds)</li>
-                        </ul>
-                        <li className="mb-2">If you lose a life your speed will remain the same but your score multiplier will reset back to 1x.</li>
-                        {/* Add more rules as needed */}
-                    </ul>
                 </div>
             </div>
         </div>
