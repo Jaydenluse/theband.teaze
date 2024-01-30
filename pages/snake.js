@@ -327,6 +327,46 @@ const Snake = () => {
         setDirection(newDirection);
     };
 
+    const handleModalKeyPress = (event) => {
+        if (!isModalOpen) return; // Exit if modal is not open
+
+        switch (event.key) {
+            case '1':
+                if ((foodEatenCount % 50) !== 1) {
+                    halveSnakeSize();
+                } else {
+                    addLife();
+                }
+                break;
+            case '2':
+                if ((foodEatenCount % 50) !== 1) {
+                    increasePointMultiplier();
+                } else {
+                    resetSpeed();
+                }
+                break;
+            case '3':
+                if ((foodEatenCount % 50) !== 1) {
+                    keepSpeed();
+                } else {
+                    activateWallBreaker();
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        if (isModalOpen) {
+            window.addEventListener('keydown', handleModalKeyPress);
+        }
+
+        return () => {
+            window.removeEventListener('keydown', handleModalKeyPress);
+        };
+    }, [isModalOpen, foodEatenCount]);
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
@@ -512,31 +552,32 @@ const Snake = () => {
         )}
             <SnakeModal isOpen={isModalOpen} onClose={closeModal}>
                 <div className="text-container p-4 border border-lime-400 rounded-md glowing-border">
-                    <h2 className="text-2xl font-bold green mb-6 text-center">- - - - Python's Parlor - - - -</h2>
+                    <h2 className="text-2xl font-bold green text-center">- - - - Python's Parlor - - - -</h2>
+                    <p className="text-xs green mb-6 mt-2 text-center">Click or press 1, 2, or 3 to select.</p>
                     {(foodEatenCount % 50) != 1 ? 
                         (
                         <>
                             <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={halveSnakeSize}>
-                                Half Snake Size
+                                (1) Half Snake Size
                             </button>
                             <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={increasePointMultiplier}>
-                                Increase Score Multiplier (Current: {pointMultiplier}x)
+                                (2) Increase Score Multiplier (Current: {pointMultiplier}x)
                             </button>
                             <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={keepSpeed}>
-                                Keep Same Speed
+                                (3) Keep Same Speed
                             </button>
                         </>
                         ) : 
                         (
                         <>
                             <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={addLife}>
-                                +1 Life
+                                (1) +1 Life
                             </button>
                             <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={resetSpeed}>
-                                Reset Speed to 100
+                                (2) Reset Speed to 100
                             </button>
                             <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={activateWallBreaker}>
-                                Go Thru Walls + Snake (30 seconds)
+                                (3) Go Thru Walls + Snake (30 seconds)
                             </button>
                         </>
                         )
@@ -546,15 +587,15 @@ const Snake = () => {
 
             
             <div className="flex justify-center items-center h-screen bg-black">
-                <div className="flex justify-start" style={{ maxWidth: '100px', flexWrap: 'nowrap' }}> 
+                <div className="flex justify-start" style={{ maxWidth: '200px', flexWrap: 'nowrap' }}> 
                     {/* Leaderboard Section */}
                     <div style={{ 
-                        width: '400px', 
+                        width: '500px', 
                         marginLeft: '150px', 
-                        marginBottom: '390px', 
+                        marginBottom: '470px', 
                         maxHeight: '50px',  // Set a fixed maximum height
                     }}> 
-                        <h3 className="green text-xl font-bold mb-4">Leaderboard</h3>
+                        <h3 className="green text-l font-bold mb-4">Leaderboard</h3>
                         <ul className="green text-sm">
                             {leaderboard.map((entry, index) => (
                                 <li key={index}>
@@ -565,20 +606,21 @@ const Snake = () => {
                     </div>
                 </div>
             {/* Canvas and Rules Container */}
-            <div className="flex justify-center flex-1 pl-80 pt-20">
+            <div className="flex justify-center flex-1 pt-20" style={{paddingLeft: '180px'}}>
                 {/* Canvas Container */}
                 <div style={{ maxWidth: '600px' }}>
                     <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="snake-canvas" />
                 </div>
 
                 {/* Rules Section */}
-                <div className="rules-container" style={{ width: '450px', padding: '80px' }}>
-                    <h3 className="green text-xl font-bold mb-4">Game Rules</h3>
+                <div className="rules-container" style={{ width: '450px', paddingLeft: '80px', paddingRight: '80px' }}>
+                    <h3 className="green text-l font-bold mb-4 text-center">Game Rules</h3>
                     <ul className="green text-sm list-disc pl-5">
                         <li className="mb-2">Use the arrow keys to move the snake.</li>
                         <li className="mb-2">Press the spacebar to pause/unpause the game.</li>
+                        <li className="mb-2">In the top left corner is a button to toggle a grid on the map. (or press G)</li>
                         <li className="mb-4">As you eat tokens your score will increase by a multiplier that starts at 1x.</li>
-                        <li className="mb-2">Every 10th token eaten the speed will increase gradually, you will also have a choice of various boosts.</li>
+                        <li className="mb-2">Every 10th token eaten, the speed will increase gradually, you will also have a choice of various boosts.</li>
                         <ul className="pl-8 list-disc">
                             <li className="mb-2 text-xs">Half Snake Size</li>
                             <li className="mb-2 text-xs">Points Multiplier (compounds)</li>
