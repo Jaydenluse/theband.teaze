@@ -546,7 +546,7 @@ const Snake = () => {
                 </div>
                 )}
                 {/* Slider to control color filter */}
-                <div className="color-filter-slider" style={{ zIndex: 10, position: 'absolute', top: '6.5px', left: '10px', paddingLeft: '1250px' }}>
+                <div className="color-filter-slider mt-2" style={{ zIndex: 10, position: 'absolute', top: '6.5px', left: '10px', paddingLeft: '1200px' }}>
                     <input 
                         type="range" 
                         ref={sliderRef}
@@ -556,10 +556,18 @@ const Snake = () => {
                         onChange={handleSliderChange}
                         style={{ width: '200px' }}
                     />
+                    <p style={{ color: 'lime', fontSize: '12px', textAlign: 'center' }}>
+                        Adjust Color
+                    </p>
                 </div>
-                <button className={`grid-toggle ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
-                    {isGridVisible ? '' : ''}
-                </button>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', textAlign: 'center', zIndex: 500 }}>
+                    <button className={`grid-toggle mr-6 mt-2 ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
+                        {isGridVisible ? '' : ''}
+                    </button>
+                    <p style={{ color: 'lime', fontSize: '12px', marginTop: '28px', marginRight: '20px' }}>
+                        Grid 
+                    </p>
+                </div>
                 <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>
                 <div className="username-input-container z-500">
                     <input
