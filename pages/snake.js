@@ -277,7 +277,7 @@ const Snake = () => {
     };
 
     const resetSpeed = () => {
-        setSpeed(100);
+        setSpeed(150);
         setIsModalOpen(false);
         setGameStarted(true);
     };
@@ -440,13 +440,13 @@ const Snake = () => {
                 setLives(lives => lives - 1);
                 setPointMultiplier(1)
                 setSnake(initialSnake);
+                setSpeed(100);
                 setDirection({ x: 0, y: 0 }); // Stop the snake
                 setGameStarted(false); // Require a key press to start again
                 return false; // Continue the game with reduced life
             } else {
-                // Game over logic
                 gameOver()
-                return true; // End the gamechore: add a playwright test for dealer license number in purchase order
+                return true; 
             }
         }
     
@@ -560,7 +560,7 @@ const Snake = () => {
                         Adjust Color
                     </p>
                 </div>
-                <div style={{ position: 'absolute', top: '10px', right: '10px', textAlign: 'center', zIndex: 500 }}>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', textAlign: 'center', zIndex: 5 }}>
                     <button className={`grid-toggle mr-6 mt-2 ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
                         {isGridVisible ? '' : ''}
                     </button>
@@ -632,7 +632,7 @@ const Snake = () => {
                                     (1) +1 Life
                                 </button>
                                 <button className="mb-4 green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={resetSpeed}>
-                                    (2) Reset Speed to 100
+                                    (2) Slow Snake to 150
                                 </button>
                                 <button className="green text-center w-full py-2 hover:text-lime-200 transition duration-300" onClick={activateWallBreaker}>
                                     (3) Go Thru Walls + Snake (30 seconds)
@@ -687,10 +687,10 @@ const Snake = () => {
                             <li className="mb-2">Every 50th token you will have a choice of better boosts.</li>
                             <ul className="pl-8 list-disc">
                                 <li className="mb-2 text-xs">+1 Life</li>
-                                <li className="mb-2 text-xs">Reset Speed to 100</li>
+                                <li className="mb-2 text-xs">Slow Snake to 150</li>
                                 <li className="mb-4 text-xs">Go Thru Walls + Snake (30 seconds)</li>
                             </ul>
-                            <li className="mb-2">If you lose a life your speed will remain the same but your score multiplier will reset back to 1x.</li>
+                            <li className="mb-2">If you lose a life your speed will be reset to 100 and your score multiplier will reset back to 1x.</li>
                             {/* Add more rules as needed */}
                         </ul>
                     </div>
