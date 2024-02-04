@@ -546,7 +546,7 @@ const Snake = () => {
                 </div>
                 )}
                 {/* Slider to control color filter */}
-                <div className="color-filter-slider mt-2" style={{ zIndex: 10, position: 'absolute', top: '6.5px', left: '10px', paddingLeft: '1200px' }}>
+                <div className="color-filter-slider" style={{ zIndex: 10, position: 'absolute', top: '14px', right: '6vw', textAlign: 'center' }}>
                     <input 
                         type="range" 
                         ref={sliderRef}
@@ -556,7 +556,7 @@ const Snake = () => {
                         onChange={handleSliderChange}
                         style={{ width: '200px' }}
                     />
-                    <p style={{ color: 'lime', fontSize: '12px', textAlign: 'center' }}>
+                    <p style={{ color: 'lime', fontSize: '12px' }}>
                         Adjust Color
                     </p>
                 </div>
