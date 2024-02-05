@@ -57,6 +57,29 @@ app.post('/api/send-email', (req, res) => {
   });
  });
 
+ // Endpoint to remove all scores except for the top ten
+app.delete('/api/scores/cleanup', async (req, res) => {
+  try {
+      // First, find the scores that are not in the top ten
+      const scoresToRemove = await Score.find().sort({ score: -1 }).skip(10);
+      
+      // Extract the IDs of scores to remove
+      const idsToRemove = scoresToRemove.map(score => score._id);
+
+      // Remove scores that are not in the top ten
+      if (idsToRemove.length > 0) {
+          await Score.deleteMany({
+              _id: { $in: idsToRemove }
+          });
+      }
+
+      res.status(200).send({ message: `Removed ${idsToRemove.length} scores from the database.` });
+  } catch (error) {
+      console.error('Failed to clean up scores:', error);
+      res.status(500).send({ message: 'Failed to remove scores from the database.' });
+  }
+});
+
  app.post('/api/scores', async (req, res) => {
    const MAX_SCORES = 3000000;
    try {
