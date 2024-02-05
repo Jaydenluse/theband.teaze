@@ -560,11 +560,11 @@ const Snake = () => {
                         Adjust Color
                     </p>
                 </div>
-                <div style={{ position: 'absolute', top: '10px', right: '10px', textAlign: 'center', zIndex: 5 }}>
+                <div style={{ position: 'absolute', top: '10px', right: '-50px', textAlign: 'center'}}>
                     <button className={`grid-toggle mr-6 mt-2 ${isGridVisible ? 'active' : ''}`} onClick={() => setIsGridVisible(prev => !prev)}>
                         {isGridVisible ? '' : ''}
                     </button>
-                    <p style={{ color: 'lime', fontSize: '12px', marginTop: '28px', marginRight: '20px' }}>
+                    <p style={{ color: 'lime', fontSize: '12px', marginTop: '28px', right: '80px', zIndex: '10', position: 'absolute'}}>
                         Grid 
                     </p>
                 </div>
