@@ -23,7 +23,7 @@ const Snake = () => {
     const [snake, setSnake] = useState(savedGameState?.snake || initialSnake);
     const [food, setFood] = useState(savedGameState?.food || { x: 300, y: 300 });
     const [direction, setDirection] = useState(savedGameState?.direction || { x: 0, y: 0 });
-    const [speed, setSpeed] = useState(savedGameState?.speed || 100);
+    const [speed, setSpeed] = useState(50);
     const [score, setScore] = useState(savedGameState?.score || 0);
     const [foodEatenCount, setFoodEatenCount] = useState(savedGameState?.foodEatenCount || 0);
     const [isModalOpen, setIsModalOpen] = useState(savedGameState?.isModalOpen || false);
@@ -43,6 +43,8 @@ const Snake = () => {
     const [showTransition, setShowTransition] = useState(false);
     const [isGridVisible, setIsGridVisible] = useState(true); 
     const [colorFilter, setColorFilter] = useState(0); 
+    const [isSaving, setIsSaving] = useState(false);
+    const [lastDirectionChangeTime, setLastDirectionChangeTime] = useState(Date.now());
 
     const sliderRef = useRef(null);
 
@@ -87,6 +89,7 @@ const Snake = () => {
     }, [playerRank]);
 
     const saveScore = async (username, score) => {
+        setIsSaving(true); // Block key presses
         console.log(`Saving score for ${username}: ${score}`);
         try {
             const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/scores`, {
@@ -109,6 +112,8 @@ const Snake = () => {
             await fetchLeaderboard();
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsSaving(false); // Unblock key presses
         }
     };
 
@@ -314,12 +319,17 @@ const Snake = () => {
                 return true;
             }
         }
-    
+        console.log("Collision Check:", {head, snake});
         return false;
     };
 
     const handleKeyDown = (e) => {
-        if (isModalOpen || usernameModalOpen) return;
+        if (isModalOpen || usernameModalOpen || isSaving) return;
+
+        const now = Date.now();
+        if (now - lastDirectionChangeTime < 100) { // Assuming 100ms as the minimum interval
+            return; // Too soon for another direction change
+        }
     
         let newDirection = { ...direction };
         switch (e.keyCode) {
@@ -346,7 +356,10 @@ const Snake = () => {
         }
     
         if (!gameStarted) setGameStarted(true);
-        setDirection(newDirection);
+        if (newDirection) {
+            setDirection(newDirection);
+            setLastDirectionChangeTime(now); // Update the time of this direction change
+        }
     };
 
     const handleModalKeyPress = (event) => {
@@ -421,6 +434,9 @@ const Snake = () => {
     
         let newSnake = [...snake];
         let head = { x: newSnake[0].x + direction.x, y: newSnake[0].y + direction.y };
+
+        console.log("Head before moving:", snake[0]);
+        console.log("Applied direction:", direction);
     
         // Handling wall breaker
         if (wallBreakerActive) {
