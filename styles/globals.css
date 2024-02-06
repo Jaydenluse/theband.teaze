@@ -139,6 +139,18 @@ body, html {
   width: 150px; /* Adjust as needed to match your design */
   height: 50px; /* Adjust as needed to match your design */
   object-fit: contain; /* This ensures the image scales within the given dimensions without distortion */
+  background-color: #222; /* Slightly different background to distinguish */
+  border-bottom: 2px solid lime; /* Only a bottom border to blend with the snake-canvas */
+  color: lime; /* Text color */
+  box-shadow: 0 0 10px lime; /* Optional: less prominent shadow */
+}
+
+.ui-canvas {
+  background-color: #222; /* Slightly different background to distinguish */
+  color: lime; /* Text color */
+  margin-bottom: 10px; /* Overlap border if needed */
+  border: 2px solid lime; /* White border */
+  box-shadow: 0 0 10px 1px lime;
 }
 
 .snake-canvas {

@@ -19,11 +19,11 @@ const Snake = () => {
         savedGameState = savedGameString ? JSON.parse(savedGameString) : {};
     }
 
-    // State initializations with localStorage data if available
+    // State initializations with localStorage data if availa ble
     const [snake, setSnake] = useState(savedGameState?.snake || initialSnake);
     const [food, setFood] = useState(savedGameState?.food || { x: 300, y: 300 });
     const [direction, setDirection] = useState(savedGameState?.direction || { x: 0, y: 0 });
-    const [speed, setSpeed] = useState(50);
+    const [speed, setSpeed] = useState(savedGameState?.speed || 100);
     const [score, setScore] = useState(savedGameState?.score || 0);
     const [foodEatenCount, setFoodEatenCount] = useState(savedGameState?.foodEatenCount || 0);
     const [isModalOpen, setIsModalOpen] = useState(savedGameState?.isModalOpen || false);
@@ -216,12 +216,16 @@ const Snake = () => {
 
 
     const fillScreen = () => {
+        const uiCanvas = document.getElementById('uiCanvas');
+        const ctx = uiCanvas.getContext('2d');
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, uiCanvas.width, uiCanvas.height);
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        context.font = "15px Inter, sans-serif";
-        context.fillStyle = "lime";
-        context.fillText(`Score: ${score}`, 20, 30);
-        context.fillText(`Speed: ${score}`, 20, 55);
+        ctx.font = "14px Inter, s ans-serif";
+        ctx.fillStyle = "lime";
+        ctx.fillText(`Score: ${score}`, 20, 30);
+        ctx.fillText(`Speed: ${score}`, 20, 55);
 
         const multiplierText = `${pointMultiplier}x`;
         const textWidth = context.measureText(multiplierText).width;
@@ -229,7 +233,7 @@ const Snake = () => {
         context.fillText(multiplierText, multiplierPosX, 30);
 
         for (let i = 0; i < lives; i++) {
-            context.fillText("♥", 20 + (i * 20), 74); // Adjust position as needed
+            ctx.fillText("♥", 20 + (i * 20), 78); // Adjust position as needed
         }
 
         // Draw the snake
@@ -327,7 +331,7 @@ const Snake = () => {
         if (isModalOpen || usernameModalOpen || isSaving) return;
 
         const now = Date.now();
-        if (now - lastDirectionChangeTime < 100) { // Assuming 100ms as the minimum interval
+        if (now - lastDirectionChangeTime < 100) { // Ass uming 100ms as the minimum interval
             return; // Too soon for another direction change
         }
     
@@ -497,6 +501,11 @@ const Snake = () => {
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
+        const uiCanvas = document.getElementById('uiCanvas');
+        const ctx = uiCanvas.getContext('2d');
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, uiCanvas.width, uiCanvas.height);
+
         if (isGridVisible) {
             const gridSize = 20; // Size of each grid cell
             context.strokeStyle = 'rgba(211, 211, 211, 0.2)'; // Light grey with 50% opacity
@@ -507,23 +516,23 @@ const Snake = () => {
             }
         }
     
-        context.font = "14px Inter, sans-serif";
-        context.fillStyle = "lime";
-        context.fillText(`Score: ${score}`, 20, 30);
-        context.fillText(`Speed: ${speed}`, 20, 52);
+        ctx.font = "14px Inter, sans-serif";
+        ctx.fillStyle = "lime";
+        ctx.fillText(`Score: ${score}`, 20, 30);
+        ctx.fillText(`Speed: ${speed}`, 20, 52);
         
         const multiplierText = `${pointMultiplier}x`;
         const textWidth = context.measureText(multiplierText).width;
         const multiplierPosX = 580 - textWidth; // Adjust the position based on the text width
-        context.fillText(multiplierText, multiplierPosX, 30);
+        ctx.fillText(multiplierText, multiplierPosX, 30);
 
         for (let i = 0; i < lives; i++) {
-            context.fillText("♥", 20 + (i * 20), 74); // Adjust position as needed
+            ctx.fillText("♥", 20 + (i * 20), 74); // Adjust position as needed
         }
         if (wallBreakerActive) {
-            context.font = "14px Inter, sans-serif";
-            context.fillStyle = "lime";
-            context.fillText(`Wall Breaker: ${wallBreakerTimeLeft} sec`, 20, canvasSize - 20);
+            ctx.font = "14px Inter, sans-serif";
+            ctx.fillStyle = "lime";
+            ctx.fillText(`Wall Breaker: ${wallBreakerTimeLeft} sec`, 450, 74);
         }
     
         // Draw the snake
@@ -682,12 +691,13 @@ const Snake = () => {
                 {/* Canvas and Rules Container */}
                 <div className="flex justify-center flex-1 pt-20" style={{paddingLeft: '180px'}}>
                     {/* Canvas Container */}
-                    <div style={{ maxWidth: '600px' }}>
+                    <div className="canvas" style={{ maxWidth: '600px' }}>
+                        <canvas id="uiCanvas" width="600" height="100" className="ui-canvas"></canvas>
                         <canvas ref={canvasRef} width={canvasSize} height={canvasSize} className="snake-canvas" />
                     </div>
 
                     {/* Rules Section */}
-                    <div className="rules-container" style={{ width: '450px', paddingLeft: '80px', paddingRight: '80px' }}>
+                    <div className="rules-container" style={{ width: '450px', paddingLeft: '80px', paddingRight: '80px', paddingTop: '58px' }}>
                         <h3 className="green text-l font-bold mb-4 text-center">Game Rules</h3>
                         <ul className="green text-sm list-disc pl-5">
                             <li className="mb-2">Use the arrow keys to move the snake.</li>
