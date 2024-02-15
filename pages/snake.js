@@ -331,7 +331,7 @@ const Snake = () => {
         if (isModalOpen || usernameModalOpen || isSaving) return;
 
         const now = Date.now();
-        if (now - lastDirectionChangeTime < 100) { // Ass uming 100ms as the minimum interval
+        if (now - lastDirectionChangeTime < 20) { 
             return; // Too soon for another direction change
         }
     
