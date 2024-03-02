@@ -1,8 +1,8 @@
-const fetch = require('node-fetch'); // Only needed if running in Node.js
+const fetch = require('node-fetch'); 
 
 const addCard = async (code, prize, found) => {
   try {
-    const response = await fetch('http://localhost:5000/api/cards', {
+    const response = await fetch('https://thebandteazebackend-production.up.railway.app/api/cards', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -22,8 +22,27 @@ const addCard = async (code, prize, found) => {
 };
 
 // Example usage
-addCard('IX1R-39D7-T4LM-MX9U', false, false); 
-addCard('YVAD-U2DK-RBD2-OJ5W', false, false);
-addCard('PYOO-IGPK-IHYR-HXW3', false, false);
-addCard('OX3L-7YFR-CDZA-D8P5', false, false);
-addCard('IEEI-6V0J-748O-QOZ0', false, false);
+addCard('91A2-7B26-E7D5-9A44', false, false);
+addCard('0E2D-EE1F-7CBC-38B5', false, false);
+addCard('6838-3150-A0E3-BBD9', false, false);
+addCard('9499-DD19-FAB6-05E4', false, false);
+addCard('7818-DF06-D1AD-D8CA', false, false);
+addCard('1318-1077-B0BF-301E', false, false);
+addCard('60E6-3381-BD9E-8FEA', false, false);
+addCard('C152-CA92-2EC7-1DB9', false, false);
+addCard('EB42-B606-B58D-A130', false, false);
+addCard('BF66-9DEC-EC6A-6225', false, false);
+addCard('F732-D67A-02CC-7172', false, false);
+addCard('5E08-16D9-BDB6-7397', false, false);
+addCard('68CF-38C1-2111-9BC8', false, false);
+addCard('A26A-096F-E910-16DD', false, false);
+addCard('A549-9474-7F08-0959', false, false);
+addCard('09AD-C181-45AB-9602', false, false);
+addCard('BCD3-14DC-4522-1C83', false, false);
+addCard('961E-B519-E7BF-D3F0', false, false);
+addCard('289B-0127-71CE-EF69', false, false);
+addCard('985A-B126-D67F-667A', false, false);
+addCard('E8D6-2212-11F4-3C30', false, false);
+addCard('8DC2-B931-BE5A-3346', false, false);
+addCard('4A39-51FA-F214-3C99', false, false);
+addCard('0294-B2FA-E073-F0A0', false, false);
