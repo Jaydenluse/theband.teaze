@@ -151,9 +151,14 @@ function generateUniqueCode() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
 
-  for (let i = 0; i < 12; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    code += characters[randomIndex];
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 4; j++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters[randomIndex];
+    }
+    if (i < 2) {
+      code += '-';
+    }
   }
 
   return code;
