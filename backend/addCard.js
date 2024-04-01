@@ -11,7 +11,8 @@ const addCard = async (basecode, prize, found) => {
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const errorText = await response.text();
+      throw new Error(`Network response was not ok: ${response.status} ${response.statusText}\nResponse: ${errorText}`);
     }
 
     const data = await response.json();
@@ -71,4 +72,4 @@ addCard('C3D7-E1F9-G5H2-J8K4', false, false);
 addCard('V5W7-X2Y8-Z9A1-B4C6', false, false);
 addCard('D3E7-F1G9-H5J2-K8L4', false, false);
 addCard('W5X7-Y2Z8-A9B1-C4D6', false, false);
-addCard('E3F7-G1H9-J5K2-L8M4', false, false);
+

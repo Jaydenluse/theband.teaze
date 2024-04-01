@@ -18,9 +18,9 @@ const cardSchema = new mongoose.Schema({
     validate: {
       validator: function(v) {
         // Check if each code is in the format XXXX-XXXX-XXXX-XXXX-XXX
-        return /^[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9]{3}$/.test(v);
+        return /^[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{12}$/.test(v);
       },
-      message: props => `${props.value} is not a valid code! It should be in the format XXXX-XXXX-XXXX-XXXX-XXX`
+      message: props => `${props.value} is not a valid code! It should be in the format XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`
     }
   }],
   prize: Boolean,
