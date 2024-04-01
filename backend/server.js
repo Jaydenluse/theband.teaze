@@ -133,7 +133,7 @@ app.post('/api/cards', async (req, res) => {
     const codes = [];
 
     for (let i = 1; i <= 50; i++) {
-      const uniqueCode = `${basecode}-${i.toString().padStart(3, '0')}`;
+      const uniqueCode = `${basecode}-${generateUniqueCode()}`;
       codes.push(uniqueCode);
     }
 
@@ -143,6 +143,29 @@ app.post('/api/cards', async (req, res) => {
   } catch (error) {
     console.error('Error adding new card:', error);
     res.status(500).send(error.message);
+  }
+});
+
+// Helper function to generate a unique code
+function generateUniqueCode() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+
+  for (let i = 0; i < 12; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters[randomIndex];
+  }
+
+  return code;
+}
+
+app.delete('/api/cards/delete-all', async (req, res) => {
+  try {
+    const result = await Card.deleteMany({});
+    res.status(200).send({ message: `Deleted ${result.deletedCount} cards from the database.` });
+  } catch (error) {
+    console.error('Failed to delete cards:', error);
+    res.status(500).send({ message: 'Failed to delete cards from the database.' });
   }
 });
 
