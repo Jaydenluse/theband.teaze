@@ -135,7 +135,7 @@ body, html {
     color: #C01C5C; 
   }
 
-.logo{
+.logo_1{
   width: 150px; /* Adjust as needed to match your design */
   height: 50px; /* Adjust as needed to match your design */
   object-fit: contain; /* This ensures the image scales within the given dimensions without distortion */
@@ -332,6 +332,13 @@ body, html {
   color: lime; /* Green text when active */
 }
 
+.logo{
+  width: 140px; 
+  height: 35px;
+  object-fit: contain;
+}
+
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {
@@ -374,7 +381,7 @@ body, html {
 @media (max-width: 860px) {
   .phone-modal{
     width: 300px;
-    height: 500px;
+    height: 580px;
   }
 
   .found-image {
@@ -395,15 +402,15 @@ body, html {
     text-align: center;
     margin: 0 auto;
     font-size: 10px;
-    max-width: 250px; /* Adjust max-width as needed */
-    padding-bottom: 8px; /* 8px */
+    max-width: 250px; 
+    padding-bottom: 8px; 
   }
   
   .contact-text-small {
     color: white;
     font-size: 8px; 
     text-align: center;
-    max-width: 2xl; /* Adjust max-width as needed */
+    max-width: 2xl; 
   }
 
   .contact-text{
@@ -469,7 +476,7 @@ body, html {
   }
 
   .logo{
-    width: 100px; 
+    width: 150px; 
     height: 25px;
     object-fit: contain;
   }

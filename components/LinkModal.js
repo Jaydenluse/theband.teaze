@@ -18,7 +18,7 @@ const LinkModal = ({ album, isOpen, onClose, snake}) => {
                 >
                     &times;
                 </button>
-                <h2 className="phone-modal-text text-2xl font-bold mb-8 text-white text-center">Teaze '{album.title}'</h2>
+                <h2 className="phone-modal-text text-2xl font-bold mb-8 text-white text-center">Teaze - '{album.title}'</h2>
                 <div className="space-y-4">
                 {album.links.map((link, index) => (
                     <a

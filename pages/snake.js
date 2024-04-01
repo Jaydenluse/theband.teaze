@@ -332,7 +332,7 @@ const Snake = () => {
 
         const now = Date.now();
         if (now - lastDirectionChangeTime < (speed - 10)) { 
-            return; // Too soon for another direction change
+            return; 
         }
     
         let newDirection = { ...direction };
@@ -670,7 +670,7 @@ const Snake = () => {
 
                 
                 <div className="flex justify-center items-center h-screen bg-black">
-                    <div className="flex justify-start" style={{ maxWidth: '250px', flexWrap: 'nowrap' }}> 
+                    <div className="flex justify-start" style={{ maxWidth: '450px', flexWrap: 'nowrap' }}> 
                         {/* Leaderboard Section */}
                         <div style={{ 
                             width: '500px', 
@@ -689,7 +689,7 @@ const Snake = () => {
                         </div>
                     </div>
                 {/* Canvas and Rules Container */}
-                <div className="flex justify-center flex-1 pt-20" style={{paddingLeft: '180px'}}>
+                <div className="flex justify-center flex-1 pt-20">
                     {/* Canvas Container */}
                     <div className="canvas" style={{ maxWidth: '600px' }}>
                         <canvas id="uiCanvas" width="600" height="100" className="ui-canvas"></canvas>
