@@ -84,7 +84,7 @@ export default function Extras() {
                     {card.found && (
                         <img src='images/found.PNG' alt="Found" className='found-image' />
                     )}
-                    <div>{`__/${card.remainingCodes}`}</div> {/* Display remaining codes count */}
+                        <div className="remaining-codes">__/{card.remainingCodes}</div>
                     </div>
                 ))}
             </div>

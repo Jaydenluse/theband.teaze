@@ -338,6 +338,16 @@ body, html {
   object-fit: contain;
 }
 
+.remaining-codes {
+  font-family: 'Press Start 2P', cursive; /* Or any other font you prefer */
+  font-size: 16px; /* Adjust the font size as needed */
+  color: lime; /* Set the text color */
+  position: absolute; /* Position the element absolutely */
+  bottom: -30px; /* Adjust the vertical position */
+  left: 5%; /* Center the element horizontally */
+  transform: translateX(-50%); /* Center the element horizontally */
+}
+
 
 
 /* Styles for mobile screens */
