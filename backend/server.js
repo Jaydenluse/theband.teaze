@@ -128,41 +128,47 @@ app.get('/api/getcards', async (req, res) => {
 });
 
 app.post('/api/cards', async (req, res) => {
-   try {
-     const { code, prize, found } = req.body;
-     const newCard = new Card({ code, prize, found });
-     await newCard.save();
-     res.status(201).send(newCard);
-   } catch (error) {
-     console.error('Error adding new card:', error);
-     res.status(500).send(error.message);
-   }
- });
+  try {
+    const { basecode, prize, found } = req.body;
+    const codes = [];
 
- app.post('/api/check-code', async (req, res) => {
-   try {
-     const { code } = req.body;
-     const matchingCard = await Card.findOne({ code: code });
-     if (matchingCard) {
+    for (let i = 1; i <= 50; i++) {
+      const uniqueCode = `${basecode}-${i.toString().padStart(3, '0')}`;
+      codes.push(uniqueCode);
+    }
+
+    const newCard = new Card({ basecode, codes, prize, found });
+    await newCard.save();
+    res.status(201).send(newCard);
+  } catch (error) {
+    console.error('Error adding new card:', error);
+    res.status(500).send(error.message);
+  }
+});
+
+app.post('/api/check-code', async (req, res) => {
+  try {
+    const { code } = req.body;
+    const matchingCard = await Card.findOne({ codes: code });
+
+    if (matchingCard) {
       if (matchingCard.found) {
-        // If the code has already been used
         res.send({ match: false, message: 'Code has already been used' });
       } else {
-       // Mark the card as found and save it
-       matchingCard.found = true;
-       await matchingCard.save();
+        matchingCard.found = true;
+        await matchingCard.save();
 
-       const message = matchingCard.prize 
-         ? 'Congratulations! You won a free t-shirt!' 
-         : 'Code matched, but no prize.';
+        const message = matchingCard.prize
+          ? 'Congratulations! You won a free t-shirt!'
+          : 'Code matched, but no prize.';
 
-       res.send({ match: true, prize: matchingCard.prize, found: true, message: message });
+        res.send({ match: true, prize: matchingCard.prize, found: true, message: message });
       }
     } else {
       res.send({ match: false, message: 'Code not found' });
-     }
-   } catch (error) {
-     console.error('Error checking code:', error);
-     res.status(500).send(error.message);
-   }
- });
+    }
+  } catch (error) {
+    console.error('Error checking code:', error);
+    res.status(500).send(error.message);
+  }
+});
