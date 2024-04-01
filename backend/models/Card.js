@@ -24,7 +24,8 @@ const cardSchema = new mongoose.Schema({
     }
   }],
   prize: Boolean,
-  found: Boolean
+  found: Boolean,
+  remainingCodes: { type: Number, default: 50 }
 });
 
 const Card = mongoose.model('Card', cardSchema);

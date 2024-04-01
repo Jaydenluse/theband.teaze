@@ -184,13 +184,14 @@ app.post('/api/check-code', async (req, res) => {
         res.send({ match: false, message: 'Code has already been used' });
       } else {
         matchingCard.found = true;
+        matchingCard.remainingCodes--; // Decrement remainingCodes
         await matchingCard.save();
 
         const message = matchingCard.prize
           ? 'Congratulations! You won a free t-shirt!'
           : 'Code matched, but no prize.';
 
-        res.send({ match: true, prize: matchingCard.prize, found: true, message: message });
+        res.send({ match: true, prize: matchingCard.prize, found: true, message: message, remainingCodes: matchingCard.remainingCodes }); // Send remainingCodes in the response
       }
     } else {
       res.send({ match: false, message: 'Code not found' });

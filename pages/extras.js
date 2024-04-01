@@ -75,15 +75,16 @@ export default function Extras() {
             <div className="grid-container">
                 {cards.map((card, index) => (
                     <div key={index} className="card-container" style={{ position: 'relative', display: 'inline-block', margin: '25px' }}>
-                        <img 
-                        key={index} 
-                        src={`images/cards/card_${index + 1}.JPG`} 
-                        alt={`Card ${index + 1}`} 
-                        className={`card-style ${card.found ? 'card-found' : 'card-not-found'}`} 
-                        />
-                        {card.found && (
-                            <img src='images/found.PNG' alt="Found" className='found-image'/>
-                        )}
+                    <img
+                        key={index}
+                        src={`images/cards/card_${index + 1}.JPG`}
+                        alt={`Card ${index + 1}`}
+                        className={`card-style ${card.found ? 'card-found' : 'card-not-found'}`}
+                    />
+                    {card.found && (
+                        <img src='images/found.PNG' alt="Found" className='found-image' />
+                    )}
+                    <div>{`__/${card.remainingCodes}`}</div> {/* Display remaining codes count */}
                     </div>
                 ))}
             </div>
