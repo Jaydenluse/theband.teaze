@@ -84,7 +84,7 @@ export default function Extras() {
                     {card.found && (
                         <img src='images/found.PNG' alt="Found" className='found-image' />
                     )}
-                        <div className="remaining-codes">__/{card.remainingCodes}</div>
+                        <div className="remaining-codes">{card.remainingCodes}/50</div>
                     </div>
                 ))}
             </div>
