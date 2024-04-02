@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Toast from './Toast'; 
 
-const CardInput = ({ updateCardState, onPrizeWin }) => {
+const CardInput = ({ updateCardState, onPrizeWin, code: codeFromURL }) => {
   const [code, setCode] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (codeFromURL) {
+      checkCode(codeFromURL);
+    }
+  }, [codeFromURL]);
 
   const checkCode = async (code) => {
     try {
@@ -15,12 +21,13 @@ const CardInput = ({ updateCardState, onPrizeWin }) => {
         },
         body: JSON.stringify({ code }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
       }
-
+  
       const data = await response.json();
+  
       if (data.match) {
         console.log(`Code matched. Prize: ${data.prize}`);
         updateCardState(true);
@@ -28,14 +35,19 @@ const CardInput = ({ updateCardState, onPrizeWin }) => {
         setToastMessage(data.message);
         setTimeout(() => setShowToast(false), 3000);
         updateCardState();
+  
         if (data.prize) {
-          onPrizeWin(true); // Show the modal for winning a prize
+          onPrizeWin(true); 
         }
+      } else if (data.found) {
+        setShowToast(true);
+        setToastMessage('This code has already been used.');
+        setTimeout(() => setShowToast(false), 3000);
       } else {
         setShowToast(true);
-        console.log(data.message); 
+        console.log(data.message);
         setToastMessage(data.message);
-        setTimeout(() => setShowToast(false), 3000); 
+        setTimeout(() => setShowToast(false), 3000);
       }
     } catch (error) {
       console.error('Error checking code:', error.message);
@@ -43,16 +55,14 @@ const CardInput = ({ updateCardState, onPrizeWin }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submit action
+    e.preventDefault(); 
     await checkCode(code);
   };
 
   const handleInputChange = (event) => {
     let { value } = event.target;
-    // Remove all non-numeric and non-alphabetic characters
     value = value.replace(/[^a-zA-Z0-9]/g, '');
   
-    // Insert dash after every 4 characters
     let newValue = '';
     for (let i = 0; i < value.length; i++) {
       if (i > 0 && i % 4 === 0) {

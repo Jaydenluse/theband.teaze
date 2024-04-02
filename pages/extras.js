@@ -4,12 +4,17 @@ import CardInput from "../components/CardInput";
 import SnakeModal from "../components/SnakeModal";
 import CardModal from "../components/CardModal";
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 export default function Extras() {
     const [cards, setCards] = useState([]);
     const [email, setEmail] = useState('');
     const [showPrizeModal, setShowPrizeModal] = useState(false);
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+
+    const router = useRouter();
+    const codeFromURL = router.query.code;
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -70,7 +75,7 @@ export default function Extras() {
 
             <div className="key-container flex flex-col items-start">
                 <div className="card-input-container flex">
-                <CardInput updateCardState={updateCardState} onPrizeWin={handleShowPrizeModal} />
+                <CardInput updateCardState={updateCardState} onPrizeWin={handleShowPrizeModal} code={codeFromURL} />
                 </div>
             </div>
 
@@ -81,11 +86,11 @@ export default function Extras() {
                         key={index}
                         src={`images/cards/card_${index + 1}.JPG`}
                         alt={`Card ${index + 1}`}
-                        className={`card-style ${card.found ? 'card-found' : 'card-not-found'}`}
+                        className={`card-style ${card.remainingCodes == 0 ? 'card-found' : 'card-not-found'}`}
                         onClick={() => setSelectedCardIndex(index)}
                         style={{ cursor: 'pointer' }}
                     />
-                    {card.found && (
+                    {card.remainingCodes == 0 && (
                         <img src='images/found.PNG' alt="Found" className='found-image' />
                     )}
                         <div className="remaining-codes">{card.remainingCodes}/50</div>

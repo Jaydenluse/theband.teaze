@@ -174,6 +174,31 @@ app.delete('/api/cards/delete-all', async (req, res) => {
   }
 });
 
+app.post('/api/retract-code', async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const card = await Card.findOne({ codes: code });
+
+    if (!card) {
+      return res.status(404).json({ message: 'Code not found' });
+    }
+
+    const codeIndex = card.codes.indexOf(code);
+    card.codes.splice(codeIndex, 1);
+    card.codes.push(code);
+    card.remainingCodes++; 
+    card.found = false;
+
+    await card.save();
+
+    res.json({ message: 'Code retracted successfully' });
+  } catch (error) {
+    console.error('Error retracting code:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 app.post('/api/check-code', async (req, res) => {
   try {
     const { code } = req.body;
