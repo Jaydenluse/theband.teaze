@@ -192,6 +192,7 @@ body, html {
 .grid-container {
   display: grid;
   margin-left: 40px;
+  padding-bottom: 20px;
   grid-template-columns: repeat(4, 1fr);
 }
 
@@ -357,6 +358,15 @@ body, html {
     place-items: center;
   }
 
+  .remaining-codes {
+    font-size: 14px; /* Adjust the font size as needed */
+    color: lime; /* Set the text color */
+    position: absolute; /* Position the element absolutely */
+    bottom: -30px; /* Adjust the vertical position */
+    left: 50%; /* Center the element horizontally */
+    transform: translateX(-50%); /* Center the element horizontally */
+  }
+
   .card-found {
     filter: brightness(50%);
     border-color: #FF1493; /* Pink border for found cards */
@@ -373,6 +383,7 @@ body, html {
   .grid-container {
     display: grid;
     margin-left: 0px;
+    padding-bottom: 10px;
     grid-template-columns: repeat(2, 1fr);
   }
 
