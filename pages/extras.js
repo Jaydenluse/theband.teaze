@@ -2,12 +2,14 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CardInput from "../components/CardInput";
 import SnakeModal from "../components/SnakeModal";
+import CardModal from "../components/CardModal";
 import { useState, useEffect } from 'react';
 
 export default function Extras() {
     const [cards, setCards] = useState([]);
     const [email, setEmail] = useState('');
     const [showPrizeModal, setShowPrizeModal] = useState(false);
+    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -40,7 +42,7 @@ export default function Extras() {
             try {
                 const response = await fetch(`https://thebandteazebackend-production.up.railway.app/api/getcards`);
                 const data = await response.json();
-                setCards(data);
+                setCards(data.map((card, index) => ({ ...card, index })));;
             } catch (error) {
                 console.error('Error fetching cards:', error);
             }
@@ -54,7 +56,7 @@ export default function Extras() {
         try {
             const response = await fetch('https://thebandteazebackend-production.up.railway.app/api/getcards');
             const data = await response.json();
-            setCards(data);
+            setCards(data.map((card, index) => ({ ...card, index })));;
         } catch (error) {
             console.error('Error fetching updated cards:', error);
         }
@@ -80,6 +82,8 @@ export default function Extras() {
                         src={`images/cards/card_${index + 1}.JPG`}
                         alt={`Card ${index + 1}`}
                         className={`card-style ${card.found ? 'card-found' : 'card-not-found'}`}
+                        onClick={() => setSelectedCardIndex(index)}
+                        style={{ cursor: 'pointer' }}
                     />
                     {card.found && (
                         <img src='images/found.PNG' alt="Found" className='found-image' />
@@ -88,6 +92,10 @@ export default function Extras() {
                     </div>
                 ))}
             </div>
+            <CardModal
+                card={selectedCardIndex !== null ? cards[selectedCardIndex] : null}
+                onClose={() => setSelectedCardIndex(null)}
+            />
             <SnakeModal 
                 isOpen={showPrizeModal} 
                 onClose={() => setShowPrizeModal(false)}
