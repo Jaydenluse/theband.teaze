@@ -593,40 +593,50 @@ const Snake = () => {
                         Grid 
                     </p>
                 </div>
-                <SnakeModal isOpen={usernameModalOpen} onClose={() => setUsernameModalOpen(false)}>
-                <div className="username-input-container z-500">
-                    <input
+                <SnakeModal
+                    isOpen={usernameModalOpen}
+                    onClose={() => setUsernameModalOpen(false)}
+                    style={{ backgroundColor: 'black' }}
+                    >
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <input
                         type="text"
                         maxLength="3"
                         placeholder="Enter Username"
                         style={{
-                            backgroundColor: 'black',
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
                             color: 'lime',
-                            border: '2px solid lime',
                             outline: 'none',
-                            padding: '10px',
-                            width: '150px',
-                            borderRadius: '5px',
-                            fontSize: '16px',
+                            padding: '12px',
+                            width: '100%',
+                            borderRadius: '8px',
+                            fontSize: '18px',
                             textAlign: 'center',
-                            transition: 'background-color 0.3s ease',
+                            transition: 'background-color 0.3s ease, transform 0.3s ease',
                             '::placeholder': {
-                                color: 'rgba(255, 255, 255, 0.5)'
+                            color: 'rgba(255, 255, 255, 0.5)'
                             },
                             ':focus': {
-                                backgroundColor: '#32CD32'  
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            transform: 'scale(1.05)'
                             }
                         }}
-                        className="username-input"
                         onChange={(e) => setUsername(e.target.value.toUpperCase().substring(0, 6))}
                         onKeyPress={(e) => handleKeyPress(e)}
                         value={username}
-                    />
-                        <p style={{ color: 'lime', fontSize: '12px', marginTop: '10px' }}>
-                            Press 'Enter' to submit
+                        />
+                        <p
+                        style={{
+                            fontSize: '14px',
+                            marginTop: '20px',
+                            textAlign: 'center',
+                            textShadow: '0 0 5px rgba(0, 255, 0, 0.8)'
+                        }}
+                        >
+                        Press 'Enter' to submit
                         </p>
-                </div>
-                </SnakeModal>
+                    </div>
+                    </SnakeModal>
                 {/* Show the rank after the modal is closed */}
                 {showRankNotification && (
                 <div className={`rank-notification ${showTransition ? 'show' : ''}`}>
