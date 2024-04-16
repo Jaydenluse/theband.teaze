@@ -93,7 +93,9 @@ export default function Extras() {
                     {card.remainingCodes == 0 && (
                         <img src='images/found.PNG' alt="Found" className='found-image' />
                     )}
-                        <div className="remaining-codes">{card.remainingCodes - 30}/20</div>
+                        <div className="remaining-codes">
+                            {card.remainingCodes === 30 ? '0/20' : `${card.remainingCodes - 30}/20`}
+                        </div>
                     </div>
                 ))}
             </div>

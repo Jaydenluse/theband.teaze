@@ -11,9 +11,7 @@ const SnakeModal = ({ isOpen, onClose, children }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex justify-center items-center z-500" onClick={handleBackdropClick}>
             <div className="modal-container p-8 md:p-12 rounded shadow-lg max-w-md mx-auto relative" onClick={(e) => e.stopPropagation()}>
-                <div className="modal-content">
                     {children} {/* Content passed as children */}
-                </div>
             </div>
         </div>
     );
