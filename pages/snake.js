@@ -606,6 +606,7 @@ const Snake = () => {
                         style={{
                             backgroundColor: 'rgba(0, 0, 0, 0.7)',
                             color: 'lime',
+                            border: '2px solid lime',
                             outline: 'none',
                             padding: '12px',
                             width: '100%',
@@ -630,7 +631,7 @@ const Snake = () => {
                             fontSize: '14px',
                             marginTop: '20px',
                             textAlign: 'center',
-                            textShadow: '0 0 5px rgba(0, 255, 0, 0.8)'
+                            color: 'lime'
                         }}
                         >
                         Press 'Enter' to submit

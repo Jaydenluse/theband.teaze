@@ -49,7 +49,7 @@ const AlbumComponent = () => {
 
   return (
     <>
-      <div className="album-list-container pt-10 flex flex-wrap justify-center">
+      <div className="album-list-container flex flex-wrap justify-center">
         {albums.map((album) => (
           <div key={album.id} className="album-container pt-8 mx-4" onClick={() => handleAlbumClick(album)}>
             <div

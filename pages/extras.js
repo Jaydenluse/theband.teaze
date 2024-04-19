@@ -154,7 +154,7 @@ export default function Extras() {
                 </div>
                 </form>
             </SnakeModal>
-            <Footer videoLink='https://www.youtube.com/watch?v=FFlWJHOUhhs'/>
+            <Footer/>
         </>
     );
 }
