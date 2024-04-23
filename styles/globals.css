@@ -374,6 +374,14 @@ body, html {
   height: auto;
 }
 
+.single{
+  margin-left: 250px;
+}
+
+.singles{
+  margin-top: 100px;
+}
+
 
 /* Styles for mobile screens */
 @media (max-width: 600px) {
@@ -427,6 +435,11 @@ body, html {
   .phone-modal{
     width: 300px;
     height: 580px;
+  }
+
+  .singles{
+    font-size: 25px;
+    margin-top: 100px;
   }
 
   .found-image {

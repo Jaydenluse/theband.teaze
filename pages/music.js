@@ -11,7 +11,10 @@ export default function Music() {
       <div className="relative min-h-screen">
       <img className="bg-video-container min-h-screen z-10 brightness-75" src="images/music.gif"/>
         <div className="absolute top-0 left-0 w-full h-full z-20 absolute flex flex-col items-start justify-center">
-        <h2 className="singles text-white text-4xl font-bold ml-12">SINGLES</h2>
+        <div className="flex items-center ml-12">
+          <h2 className="singles text-white text-4xl font-bold">EP</h2>
+          <h2 className="singles single text-white text-4xl font-bold">SINGLES</h2>
+        </div>
           <YoutubeVideoList />
         </div>
       </div>
