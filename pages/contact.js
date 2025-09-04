@@ -47,7 +47,7 @@ export default function Contact() {
             <Header />
 
             <div className="absolute w-full h-full z-0" style={{ height: '100vh', width: '100vw' }}>
-                <img src="images/contact.gif" alt="Background" className="h-full w-full object-cover" />
+                <img src="images/contact.jpg" alt="Background" className="h-full w-full object-cover" />
             </div>
 
             <div className="relative z-10 min-h-screen" style={{ width: '100vw' }}>
