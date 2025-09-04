@@ -20,9 +20,6 @@ const Header = () => {
       <Link href="/contact" passHref>
         <span className={isActive("/contact")}>CONTACT</span>
       </Link>
-      <Link href="/extras" passHref>
-        <span className={isActive("/extras")}>EXTRAS</span>
-      </Link>
       <Link href="/snake" passHref>
         <span className={isActive("/snake")}>SNAKE</span>
       </Link>

@@ -689,7 +689,6 @@ const Snake = () => {
                             marginBottom: '470px', 
                             maxHeight: '50px',  // Set a fixed maximum height
                         }}> 
-                            <h3 className="green text-l font-bold mb-4">Leaderboard</h3>
                             <ul className="green text-sm">
                                 {leaderboard.map((entry, index) => (
                                     <li key={index}>
